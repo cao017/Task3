@@ -1,62 +1,70 @@
-// A tiny REST API on top of a Redis database.
-//
-//   GET /api/key                          → the value stored under that key
-//   PUT /api/key  with body { "value": … } → stores the value under that key
-//
-// The server remembers nothing itself: Vercel may run it on a different machine
-// for every request. Anything we want to keep has to go in the database.
+//   GET  /api/messages?room=blue-fox-42        → the last 50 messages in that room
+//   POST /api/messages  { room, from, text }   → adds a message to that room
 
-import express from 'express'
-import { Redis } from '@upstash/redis'
+const getMessagesButton = document.getElementById("getMessagesButton");
+const sendMessageButton = document.getElementById("sendButton");
+const partnerNameLogo = document.getElementById("partnerNameLogo");
+const messageInput = document.getElementById("messageInput");
+const avatarAnimation = document.getElementById("avatarAnimation");
+const partnerAvatar = document.getElementById("partnerAvatar");
+const messageReceived = document.getElementById("messageReceived");
+avatarAnimation.style.opacity = 1;
 
-const app = express()
-const port = 3000
+// retrieve the names from localStorage: this is persistent between sessions
+let myName = localStorage.getItem("myName");
+let partnerName = localStorage.getItem("partnerName");
+if ((!myName) || (!partnerName)) {
+    window.location.href = "settings.html";
+}
 
-// Reads UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN from the environment.
-// Locally they come from .env; on Vercel from Settings → Environment Variables.
-const redis = Redis.fromEnv()
+sendMessageButton.addEventListener("click", () => {
+    postMessage();
+});
 
-// Turn a JSON request body into req.body
-app.use(express.json())
+const getMessages = async function() {
+    let URL = `https://messenger-coral-xi.vercel.app/api/messages?room=partnercheckin`;
+    let response = await fetch(URL);
+    let results = await response.json();
 
-app.get('/', (req, res) => {
-  res.type('text').send(
-    'Key/value store \n\n' +
-    'GET /api/key                            → read the value stored under key\n' +
-    'PUT /api/key  with body { "value": … }  → store a value under key\n'
-  )
-})
+    if (Array.isArray(results) && results.length > 0) {
+        let fromPartner = results.filter((message) => message.from === partnerName);
+        if (fromPartner.length > 0) {
+            let lastMessage = fromPartner[fromPartner.length - 1];
+            messageReceived.textContent = lastMessage.text;
+            let timeElapsed = Date.now() - lastMessage.time;       
+            if (timeElapsed < 10000) {
+                avatarAnimation.style.opacity = 1;
+            }
+        }
+    }    
+    
+    console.log(results);
+}
 
-// Read a key
-app.get('/api/:key', async (req, res) => {
-  const { key } = req.params
-  const value = await redis.get(key)
-  if (value === null) {
-    return res.status(404).json({ error: `Nothing stored under "${key}"` })
-  }
-  res.json({ key, value })
-})
+const postMessage = async function() {
+    
+    let URL = `https://messenger-coral-xi.vercel.app/api/messages`;
+    let response = await fetch(URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            room: "partnercheckin",
+            from: localStorage.getItem("myName"),
+            text: messageInput.value
+        })
+    });
+    let results = await response.json();
+    console.log(results);
 
-// Write a key
-app.put('/api/:key', async (req, res) => {
-  const { key } = req.params
-  const value = req.body?.value
-  if (value === undefined) {
-    return res.status(400).json({ error: 'Send a JSON body like { "value": "something" }' })
-  }
-  await redis.set(key, value)
-  res.json({ key, value })
-})
+}
 
-// If anything above throws (a malformed JSON body, the database can't be reached, …),
-// reply with JSON rather than Express's default HTML error page.
-app.use((error, req, res, next) => {
-  console.error(error)
-  res.status(error.status ?? 500).json({ error: error.message })
-})
+const fadeAvatar = function() {
+    avatarAnimation.style.opacity = avatarAnimation.style.opacity * 0.99;
+};
 
-app.listen(port, () => {
-  console.log(`Key/value API listening at http://localhost:${port}`)
-})
+partnerAvatar.src = localStorage.getItem("partnerAvatar");
+let getMessageTimer = setInterval(getMessages, 5000);
+let avatarFadeTimer = setInterval(fadeAvatar, 100);
 
-export default app
