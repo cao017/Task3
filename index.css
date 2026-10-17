@@ -4,7 +4,7 @@
 
 :root {
   --screen-background-image: url("images/Background.png");
-    --background-color: #dee4ef;
+   --background-color: rgba(247, 131, 131, 0.7);
     --surface-color: #eeb3ee;
     --input-field-color: #f0f0f0;
 }
@@ -40,6 +40,7 @@ a {
     max-width: 350px;
     width: 100%;
     background-color: var(--background-color);
+      backdrop-filter: blur(3px);
     display: flex;
     flex-direction: column;
     align-items: center;
