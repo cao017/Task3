@@ -87,3 +87,20 @@ let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(fadeAvatar, 100);
 
 
+const mySendButton = document.getElementById("sendButton");
+const myMessageInput = document.getElementById("messageInput");
+const myMessageBox = document.getElementById("messageReceived");
+
+mySendButton.addEventListener("click", () => {
+    const text = myMessageInput.value.trim();
+    if (text === "") return;          // ignore empty messages
+    myMessageBox.textContent = text; // show the message
+    myMessageInput.value = "";          // clear the input box
+});
+
+// Optional: also send when pressing Enter
+myMessageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") mySendButton.click();
+
+    
+});
