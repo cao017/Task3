@@ -4,7 +4,7 @@
 
 
 :root {
-    --screen-background-color: #f0f0f0;
+    --screen-background-image: url("images/Background.png");
     --background-color: #dee4ef;
     --surface-color: #bec7d6;
     --input-field-color: #f0f0f0;
@@ -12,7 +12,11 @@
 
 
 body {
-    background-color: var(--screen-background-color);
+    background-image: var(--screen-background-image);
+    background-color: #a53636; /* fallback color */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
