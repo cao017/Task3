@@ -14,14 +14,7 @@ avatarAnimation.style.opacity = 1;
 // retrieve the names from localStorage: this is persistent between sessions
 let myName = localStorage.getItem("myName");
 let partnerName = localStorage.getItem("partnerName");
-if ((!myName) || (!partnerName)) {
-    window.location.href = "settings.html";
-}
 
-
-sendMessageButton.addEventListener("click", () => {
-    postMessage();
-});
 
 const getMessages = async function() {
     let URL = `https://messengerbackend-beta.vercel.app/api/messages?room=partnercheckin`;
@@ -66,7 +59,10 @@ const fadeAvatar = function() {
     avatarAnimation.style.opacity = avatarAnimation.style.opacity * 0.99;
 };
 
-partnerAvatar.src = localStorage.getItem("partnerAvatar");
+const savedPartnerAvatar = localStorage.getItem("partnerAvatar");
+if (savedPartnerAvatar) {
+    partnerAvatar.src = savedPartnerAvatar;
+}
 let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(fadeAvatar, 100);
 
