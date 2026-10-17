@@ -40,7 +40,7 @@ sendMessageButton.addEventListener("click", () => {
 });
 
 const getMessages = async function() {
-    let URL = `https://messenger-coral-xi.vercel.app/api/messages?room=partnercheckin`;
+    let URL = `https://messengerbackend-beta.vercel.app/api/messages?room=partnercheckin`;
     let response = await fetch(URL);
     let results = await response.json();
 
@@ -61,7 +61,7 @@ const getMessages = async function() {
 
 const postMessage = async function() {
     
-    let URL = `https://messenger-coral-xi.vercel.app/api/messages`;
+    let URL = `https://messengerbackend-beta.vercel.app/api/messages`;
     let response = await fetch(URL, {
         method: "POST",
         headers: {
