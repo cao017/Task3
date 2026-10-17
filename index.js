@@ -34,6 +34,7 @@ if ((!myName) || (!partnerName)) {
     window.location.href = "settings.html";
 }
 
+
 sendMessageButton.addEventListener("click", () => {
     postMessage();
 });
@@ -84,4 +85,5 @@ const fadeAvatar = function() {
 partnerAvatar.src = localStorage.getItem("partnerAvatar");
 let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(fadeAvatar, 100);
+
 

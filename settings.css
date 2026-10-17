@@ -91,7 +91,7 @@ body {
 
 /* highlight the image next to the checked radio */
 .avatarChoice input:checked + img {
-    border-color: #951212;
+    border-color: #ffffff;
     opacity: 1.0;
 }
 
