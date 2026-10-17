@@ -1,20 +1,4 @@
 
-import express from 'express'
-import { Redis } from '@upstash/redis'
-
-const app = express()
-const port = 3000
-
-// Reads UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN from the environment.
-// Locally they come from .env; on Vercel from Settings → Environment Variables.
-const redis = Redis.fromEnv()
-
-// Turn a JSON request body into req.body
-app.use(express.json())
-
-export default app
-
-
 //   GET  /api/messages?room=blue-fox-42        → the last 50 messages in that room
 //   POST /api/messages  { room, from, text }   → adds a message to that room
 
