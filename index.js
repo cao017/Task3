@@ -12,7 +12,7 @@ const redis = Redis.fromEnv()
 // Turn a JSON request body into req.body
 app.use(express.json())
 
-
+export default app
 
 
 //   GET  /api/messages?room=blue-fox-42        → the last 50 messages in that room
