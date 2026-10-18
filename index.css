@@ -12,6 +12,9 @@
     --input-border-color: #cccccc;
     --input-border-focus: #888888;
     --scrollbar-thumb: rgba(0, 0, 0, 0.3);
+     --button-front: hsl(345deg 100% 47%);
+    --button-edge-dark: hsl(340deg 100% 16%);
+    --button-edge-light: hsl(340deg 100% 32%);
 }
 
 :root[data-theme="dark"] {
@@ -24,8 +27,14 @@
     --input-border-color: #4a4a4a;
     --input-border-focus: #999999;
     --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+    --button-front: hsl(345deg 100% 29%);        /* same as rgb(150, 0, 40) */
+    --button-edge-dark: hsl(340deg 100% 10%);
+    --button-edge-light: hsl(340deg 100% 18%);
 }
 
+:root[data-theme="dark"] .button-82-pushable:hover {
+  filter: brightness(115%);
+}
 body {
     background-image: var(--screen-background-image);
     background-color: var(--page-fallback-color);
@@ -222,10 +231,10 @@ img {
   border-radius: 24px;
   background: linear-gradient(
     to left,
-    hsl(340deg 100% 16%) 0%,
-    hsl(340deg 100% 32%) 8%,
-    hsl(340deg 100% 32%) 92%,
-    hsl(340deg 100% 16%) 100%
+    var(--button-edge-dark) 0%,
+    var(--button-edge-light) 8%,
+    var(--button-edge-light) 92%,
+    var(--button-edge-dark) 100%
   );
 }
 
@@ -236,7 +245,7 @@ img {
   border-radius: 24px;
   font-size: 1.1rem;
   color: white;
-  background: hsl(345deg 100% 47%);
+  background: var(--button-front);
   will-change: transform;
   transform: translateY(-4px);
   transition:

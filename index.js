@@ -85,8 +85,12 @@ const fadeAvatar = function() {
 
 const savedPartnerAvatar = localStorage.getItem("partnerAvatar");
 if (savedPartnerAvatar) {
-    partnerAvatar.src = savedPartnerAvatar;
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    partnerAvatar.src = isDark
+        ? savedPartnerAvatar.replace("images/NonBinary", "images/DarkModeNonBinary")
+        : savedPartnerAvatar;
 }
+
 let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(fadeAvatar, 100);
 
