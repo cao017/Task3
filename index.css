@@ -17,6 +17,9 @@
     --button-edge-light: hsl(340deg 100% 32%);
     --bubble-mine: #eeb3ee;
     --bubble-theirs: #48a1b1;
+     --paper-color: #fffaf0;
+    --envelope-color: #f2b8c6;
+    --envelope-back: #e49aae;
 }
 
 :root[data-theme="dark"] {
@@ -34,6 +37,9 @@
     --button-edge-light: hsl(340deg 100% 18%);
     --bubble-mine: #a55878;
     --bubble-theirs: #25585f;
+    --paper-color: #302c2a;
+    --envelope-color: #6a3347;
+    --envelope-back: #52283a;
 }
 
 :root[data-theme="dark"] .button-82-pushable:hover {
@@ -207,17 +213,90 @@ img {
 }
 
 /* ---------- chat log ---------- */
-#chatLogWrapper {
+/* ---------- envelope + letter ---------- */
+#envelope {
+    position: relative;
     width: 100%;
-    flex: 1;                 /* fills the space between the avatar and the type box */
-    min-height: 80px;
+    flex: 1;
+    min-height: 170px;
+}
+
+/* the back of the envelope, visible at the sides of the letter */
+#envelope::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 78px;
+    background: var(--envelope-back);
+    border-radius: 10px 10px 14px 14px;
+}
+
+/* the letter: it runs down behind the pocket, so it looks half inside */
+#chatLogWrapper {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 3%;
+    right: 3%;
+    bottom: 20px;
     display: flex;
     flex-direction: column;
-    padding: 12px 8px 12px 12px;
-    background-color: var(--input-field-color);
-    border-radius: 24px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 14px 8px 48px 12px;   /* big bottom padding keeps messages above the pocket */
+    background: var(--paper-color);
+    border-radius: 6px 6px 0 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+}
+
+/* the front pocket, with a V-shaped top edge */
+#envelopeFront {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    pointer-events: none;          /* scrolling and clicks go through to the letter */
+    filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.18));
+}
+
+#envelopeFront::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--envelope-color);
+    border-radius: 0 0 14px 14px;
+    clip-path: polygon(0 0, 50% 30%, 100% 0, 100% 100%, 0 100%);
+}
+
+/* fold lines */
+#envelopeFront::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M0 100 L50 30 L100 100' fill='none' stroke='rgba(0,0,0,0.18)' stroke-width='1' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
+}
+
+/* little heart seal */
+#envelopeSeal {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #c8102e;
+    color: #ffffff;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 #chatLog {
