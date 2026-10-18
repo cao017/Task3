@@ -8,6 +8,9 @@ const messageInput = document.getElementById("messageInput");
 const avatarAnimation = document.getElementById("avatarAnimation");
 const partnerAvatar = document.getElementById("partnerAvatar");
 const messageReceived = document.getElementById("messageReceived");
+const messageMeta = document.getElementById("messageMeta");
+const messageSender = document.getElementById("messageSender");
+const messageTime = document.getElementById("messageTime");
 avatarAnimation.style.opacity = 1;
 
 // retrieve the names from localStorage: this is persistent between sessions
@@ -43,22 +46,41 @@ if (!hasNames) {
     messageInput.placeholder = "Choose names in settings!";
 } else {
     const placeholders = [
-     `Tell ${partnerName} what you love about them`,
-    `Send ${partnerName} a love note`,
-    `Tell ${partnerName} about your day`,
-    `Send ${partnerName} a quick check-in`,
-    `Ask ${partnerName} about their day`,
-    `Ask ${partnerName} what made them smile today`,
-    `Give ${partnerName} a compliment`,
-    `Tell ${partnerName} why you miss them`,
-    `Give ${partnerName} a virtual hug`,
-    `Share a memory you had with ${partnerName} that was unforgettable`,
+        `Tell ${partnerName} something sweet`,
+        `Send ${partnerName} a love note`,
+        `Tell ${partnerName} about your day`,
+        `Send ${partnerName} a quick check-in`,
+        `Ask ${partnerName} about their day`,
+        `Send ${partnerName} a little kiss`,
+        `Give ${partnerName} a compliment`,
+        `Tell ${partnerName} you miss them`,
+        `Give ${partnerName} a virtual hug`,
+        `Share a memory with ${partnerName}`,
     ];
 
     messageInput.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
 }
 
 autoGrow();
+
+// ---------- showing a message with its sender and time ----------
+const formatTime = function (ms) {
+    const date = new Date(ms);
+    const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    // messages from today show just the time, older ones also show the date
+    if (date.toDateString() === new Date().toDateString()) {
+        return time;
+    }
+    return `${date.toLocaleDateString([], { day: "numeric", month: "short" })}, ${time}`;
+};
+
+const showMessage = function (senderName, text, time) {
+    messageSender.textContent = senderName;
+    messageTime.textContent = formatTime(time);
+    messageMeta.hidden = false;
+    messageReceived.textContent = text;
+    messageReceived.scrollTop = 0;
+};
 
 // ---------- random avatar animations ----------
 const avatarAnimations = [
@@ -96,10 +118,11 @@ const getMessages = async function() {
             let fromPartner = results.filter((message) => message.from === partnerName);
             if (fromPartner.length > 0) {
                 let lastMessage = fromPartner[fromPartner.length - 1];
-                messageReceived.textContent = lastMessage.text;
 
+                // only show it when it's new, so it doesn't keep replacing your own message
                 if (lastMessage.time && lastMessage.time > lastSeenTime) {
                     lastSeenTime = lastMessage.time;
+                    showMessage(partnerName, lastMessage.text, lastMessage.time);
                     playRandomAvatarAnimation();
                 }
 
@@ -129,7 +152,7 @@ const sendMessage = async function() {
     }
 
     // shown right away so you can test the frontend without a backend
-    messageReceived.textContent = text;
+    showMessage(myName, text, Date.now());
     avatarAnimation.style.opacity = "1";
     playRandomAvatarAnimation();   // temporary: remove once partner messages arrive
 
