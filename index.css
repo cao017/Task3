@@ -3,16 +3,32 @@
 }
 
 :root {
-  --screen-background-image: url("images/Background.png");
-   --background-color: rgba(247, 131, 131, 0.7);
+    --screen-background-image: url("images/Background.png");
+    --page-fallback-color: #a53636;
+    --background-color: rgba(247, 131, 131, 0.7);
     --surface-color: #eeb3ee;
     --input-field-color: #f0f0f0;
+    --text-color: #000000;
+    --input-border-color: #cccccc;
+    --input-border-focus: #888888;
+    --scrollbar-thumb: rgba(0, 0, 0, 0.3);
 }
 
+:root[data-theme="dark"] {
+  --screen-background-image: url("images/DarkMode1.png");
+    --page-fallback-color: #3a1515;
+    --background-color: rgba(70, 25, 25, 0.8);
+    --surface-color: #5a3a5a;
+    --input-field-color: #2b2b2b;
+    --text-color: #f0f0f0;
+    --input-border-color: #4a4a4a;
+    --input-border-focus: #999999;
+    --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+}
 
 body {
     background-image: var(--screen-background-image);
-    background-color: #a53636; /* fallback color */
+    background-color: var(--page-fallback-color);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -27,9 +43,32 @@ body, a, button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%232e2c2c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
+/* lighter heart cursor so it shows up on the dark background */
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] a,
+:root[data-theme="dark"] button {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%23f0f0f0' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
+}
+
 a {
     text-decoration: none;
     color: inherit;
+}
+
+#mainContainer {
+    max-width: 350px;
+    width: 100%;
+    background-color: var(--background-color);
+    backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    height: 100vh;
+    padding: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text-color);
 }
 
 #header {
@@ -38,25 +77,7 @@ a {
     flex-direction: row;
     text-align: center;
     justify-content: flex-end;
-        font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
 }
-
-#mainContainer {
-    max-width: 350px;
-    width: 100%;
-    background-color: var(--background-color);
-      backdrop-filter: blur(3px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 16px;
-    height: 100vh;
-    padding: 16px;
-       font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
-}   
 
 #messagingPanel {
     width: 100%;
@@ -66,8 +87,6 @@ a {
     justify-content: space-between;
     height: 100%;
     gap: 16px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
 }
 
 #partnerSection {
@@ -98,35 +117,57 @@ img {
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;      /* keeps Send at the bottom as the box grows */
     justify-content: space-between;
     gap: 8px;
-
-    #messageInput {
-    width: 100%;          /* fixed width, never grows sideways */
-    resize: none;         /* hide the drag handle */
-    overflow: hidden;     /* no scrollbar while it grows */
-    max-height: 150px;    /* stop growing after a while */
-    font-family: inherit; /* textareas use a different font by default */
-    font-size: 1rem;
-    line-height: 1.4;
-    padding: 12px;
-    border-radius: 24px;
-    border: 1px solid #ccc;
 }
+
+#messageInputWrapper {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 8px 14px 20px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 24px;
+    background-color: var(--input-field-color);
+}
+
+#messageInputWrapper:focus-within {
+    border-color: var(--input-border-focus);
 }
 
 #messageInput {
-    box-sizing: border-box;
-    padding: 14px 20px;
-    scrollbar-width: none;   
+    display: block;
+    width: 100%;
+    max-height: 150px;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-color);
+    resize: none;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+#messageInput::placeholder {
+    color: var(--text-color);
+    opacity: 0.5;
 }
 
 #messageInput::-webkit-scrollbar {
-    display: none;  
-    
+    width: 6px;
 }
 
+#messageInput::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#messageInput::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
 
 #messageReceived {
     width: 100%;
@@ -139,11 +180,9 @@ img {
     align-items: center;
     justify-content: center;
     max-width: 100%;
-    white-space: pre-wrap;        /* keeps Shift+Enter line breaks */
-    overflow-wrap: anywhere;      /* breaks long words to fit */
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
-
-
 
 .button-82-pushable {
   position: relative;
@@ -246,14 +285,4 @@ img {
 
 .button-82-pushable:focus:not(:focus-visible) {
   outline: none;
-}
-
-#messageInput {
-    flex: 1;
-    padding: 14px;
-    border-radius: 24px;
-    border: 1px solid #ccc;
-    background-color: var(--input-field-color);
-       font-family: Arial, Helvetica, sans-serif;
-    color: #000000;
 }

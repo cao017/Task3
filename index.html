@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <title>PartnerCheckin</title>
+    <script>
+        document.documentElement.setAttribute(
+            "data-theme",
+            localStorage.getItem("theme") ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+        );
+    </script>
     <link rel="stylesheet" href="index.css" />
 </head>
 <body>
@@ -22,17 +29,17 @@
             </div>
 
             <div id="mySection">
-    <textarea id="messageInput" rows="1"></textarea>
-    <button id="sendButton" class="button-82-pushable" role="button">
-        <span class="button-82-shadow"></span>
-        <span class="button-82-edge"></span>
-        <span class="button-82-front text">
-            Send
-        </span>
-    </button>
-</div>
+                <div id="messageInputWrapper">
+                    <textarea id="messageInput" rows="1"></textarea>
+                </div>
+                <button id="sendButton" class="button-82-pushable" role="button">
+                    <span class="button-82-shadow"></span>
+                    <span class="button-82-edge"></span>
+                    <span class="button-82-front text">Send</span>
+                </button>
             </div>
         </div>
+    </div>
 
     <script src="index.js"></script>
 </body>
