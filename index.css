@@ -38,6 +38,8 @@ a {
     flex-direction: row;
     text-align: center;
     justify-content: flex-end;
+        font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
 }
 
 #mainContainer {
@@ -52,6 +54,8 @@ a {
     gap: 16px;
     height: 100vh;
     padding: 16px;
+       font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
 }   
 
 #messagingPanel {
@@ -62,6 +66,8 @@ a {
     justify-content: space-between;
     height: 100%;
     gap: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
 }
 
 #partnerSection {
@@ -218,4 +224,6 @@ img {
     border-radius: 14px;
     border: 1px solid #ccc;
     background-color: var(--input-field-color);
+       font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
 }

@@ -15,6 +15,20 @@ avatarAnimation.style.opacity = 1;
 let myName = localStorage.getItem("myName");
 let partnerName = localStorage.getItem("partnerName");
 
+const placeholders = [
+    `Tell ${partnerName} something sweet`,
+    `Send ${partnerName} a love note`,
+    `Tell ${partnerName} about your day`,
+    `Send ${partnerName} a quick check-in`,
+    `Ask ${partnerName} about their day`,
+    `Send ${partnerName} a little kiss`,
+    `Give ${partnerName} a compliment`,
+    `Tell ${partnerName} you miss them`,
+    `Give ${partnerName} a virtual hug`,
+    `Share a memory with ${partnerName}`,
+];
+
+messageInput.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
 
 const getMessages = async function() {
     let URL = `https://messengerbackend-beta.vercel.app/api/messages?room=partnercheckin`;
