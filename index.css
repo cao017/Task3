@@ -85,7 +85,8 @@ a {
     align-items: center;
     justify-content: flex-start;
     gap: 16px;
-    height: 100vh;
+    height: 100vh;     /* fallback for older browsers */
+    height: 100dvh;    /* the visible screen height on phones, so no scrolling */
     padding: 16px;
     font-family: Arial, Helvetica, sans-serif;
     color: var(--text-color);
@@ -375,6 +376,42 @@ img {
     overflow-wrap: anywhere;
 }
 
+/* ---------- avatar fade ---------- */
+#avatarAnimation {
+    transition: opacity 1s linear;   /* smooths the once-a-second updates */
+}
+
+/* ---------- emoji buttons ---------- */
+#emojiBar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+.emojiButton {
+    flex: 1;
+    max-width: 44px;
+    aspect-ratio: 1;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--input-field-color);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: transform 120ms ease;
+}
+
+.emojiButton:hover {
+    transform: translateY(-2px) scale(1.1);
+}
+
+.emojiButton:active {
+    transform: scale(0.95);
+    
+}
+
 /* ---------- type box ---------- */
 #mySection {
     width: 100%;
@@ -534,4 +571,28 @@ img {
 
 .button-82-pushable:focus:not(:focus-visible) {
   outline: none;
+}
+
+@media (max-width: 600px) {
+    #mainContainer {
+        max-width: none;       /* use the whole screen width */
+        padding: 12px;
+        gap: 12px;
+    }
+
+    #messagingPanel,
+    #partnerSection {
+        gap: 12px;
+    }
+
+    #avatarAnimation {
+        height: clamp(120px, 28dvh, 260px);
+    }
+
+    #partnerAvatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;   /* keeps the face visible when cropping */
+    }
 }

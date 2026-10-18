@@ -6,7 +6,6 @@ const messageInput = document.getElementById("messageInput");
 const avatarAnimation = document.getElementById("avatarAnimation");
 const partnerAvatar = document.getElementById("partnerAvatar");
 const chatLog = document.getElementById("chatLog");
-avatarAnimation.style.opacity = 1;
 
 // retrieve the names from localStorage: this is persistent between sessions
 let myName = localStorage.getItem("myName");
@@ -57,6 +56,36 @@ if (!hasNames) {
 }
 
 autoGrow();
+
+// ---------- emoji buttons ----------
+document.querySelectorAll(".emojiButton").forEach((button) => {
+    // stops the button from stealing focus, so the cursor stays in the text box
+    button.addEventListener("mousedown", (e) => e.preventDefault());
+
+    button.addEventListener("click", () => {
+        // insert at the cursor (or replace the selected text)
+        messageInput.setRangeText(
+            button.dataset.emoji,
+            messageInput.selectionStart,
+            messageInput.selectionEnd,
+            "end"
+        );
+        messageInput.focus();
+        autoGrow();
+        sendMessage();
+    });
+});
+
+// ---------- avatar fade: 100% -> 0% over 15 minutes ----------
+const FADE_DURATION = 15 * 60 * 1000;   // change this to make it faster or slower
+let lastActivityTime = Date.now();      // when the avatar was last "refreshed"
+
+const updateAvatarFade = function () {
+    const elapsed = Date.now() - lastActivityTime;
+    avatarAnimation.style.opacity = Math.max(0, 1 - elapsed / FADE_DURATION);
+};
+
+updateAvatarFade();
 
 // ---------- chat log ----------
 const formatTime = function (ms) {
@@ -144,7 +173,13 @@ const getMessages = async function() {
             // oldest first, whatever order the server returns them in
             results.sort((a, b) => (a.time || 0) - (b.time || 0));
 
+            let newestPartnerTime = 0;
+
             for (const message of results) {
+                if (message.from !== myName) {
+                    newestPartnerTime = Math.max(newestPartnerTime, message.time || 0);
+                }
+
                 const key = `${message.from}|${message.time}|${message.text}`;
                 if (seenKeys.has(key)) continue;
                 seenKeys.add(key);
@@ -163,9 +198,14 @@ const getMessages = async function() {
 
                 // a new message from my partner (not history)
                 if (!firstLoad && message.from !== myName) {
-                    avatarAnimation.style.opacity = 1;
                     playRandomAvatarAnimation();
                 }
+            }
+
+            // the avatar's fade restarts from my partner's latest message
+            if (newestPartnerTime && (firstLoad || newestPartnerTime > lastActivityTime)) {
+                lastActivityTime = newestPartnerTime;
+                updateAvatarFade();
             }
 
             firstLoad = false;
@@ -192,8 +232,11 @@ const sendMessage = async function() {
     // shown right away so you can test the frontend without a backend
     const shown = addMessage(myName, text, Date.now());
     pendingMine.push({ text: text, timeEl: shown.timeEl });
-    avatarAnimation.style.opacity = "1";
-    playRandomAvatarAnimation();   // temporary: remove once partner messages arrive
+
+    // temporary test helpers: remove both lines once partner messages arrive
+    lastActivityTime = Date.now();
+    updateAvatarFade();
+    playRandomAvatarAnimation();
 
     messageInput.value = "";
     autoGrow();
@@ -223,10 +266,6 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 // ---------- avatar (light or dark version) ----------
-const fadeAvatar = function() {
-    avatarAnimation.style.opacity = avatarAnimation.style.opacity * 0.99;
-};
-
 const savedPartnerAvatar = localStorage.getItem("partnerAvatar");
 if (savedPartnerAvatar) {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
@@ -238,4 +277,4 @@ if (savedPartnerAvatar) {
 // ---------- timers ----------
 getMessages();   // load the conversation right away instead of waiting 5 seconds
 let getMessageTimer = setInterval(getMessages, 5000);
-let avatarFadeTimer = setInterval(fadeAvatar, 100);
+let avatarFadeTimer = setInterval(updateAvatarFade, 1000);

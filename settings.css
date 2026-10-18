@@ -67,8 +67,20 @@ body, a, button {
     align-items: center;
     justify-content: flex-start;
     gap: 16px;
-    height: 100vh;
+    height: 100vh;     /* fallback for older browsers */
+    height: 100dvh;    /* the visible screen height on phones, so no scrolling */
     padding: 16px;
+    
+    .name-section input {
+    font-size: 1rem;   /* 16px or larger stops iOS from auto-zooming */
+}
+
+@media (max-width: 600px) {
+    #mainContainer {
+        max-width: none;
+        overflow-y: auto;   /* lets the page scroll if the content is taller than the screen */
+    }
+}
 }
 
 .name-section,
@@ -250,4 +262,28 @@ body, a, button {
 
 .button-82-pushable:focus:not(:focus-visible) {
   outline: none;
+}
+
+@media (max-width: 600px) {
+    #mainContainer {
+        max-width: none;       /* use the whole screen width */
+        padding: 12px;
+        gap: 12px;
+    }
+
+    #messagingPanel,
+    #partnerSection {
+        gap: 12px;
+    }
+
+    #avatarAnimation {
+        height: clamp(120px, 28dvh, 260px);
+    }
+
+    #partnerAvatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;   /* keeps the face visible when cropping */
+    }
 }

@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>PartnerCheckin</title>
     <script>
         document.documentElement.setAttribute(
@@ -25,14 +26,25 @@
                 <div id="avatarAnimation">
                     <img id="partnerAvatar" src="images/NonBinary1.png" width="200" height="200" />
                 </div>
-              <div id="envelope">
-    <div id="chatLogWrapper">
-        <div id="chatLog"></div>
-    </div>
-    <div id="envelopeFront" aria-hidden="true">
-        <span id="envelopeSeal">♥</span>
-    </div>
-</div>
+                <div id="envelope">
+                    <div id="chatLogWrapper">
+                        <div id="chatLog"></div>
+                    </div>
+                    <div id="envelopeFront" aria-hidden="true">
+                        <span id="envelopeSeal">♥</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="emojiBar">
+                <button type="button" class="emojiButton" data-emoji="😂" aria-label="Laughing">😂</button>
+                <button type="button" class="emojiButton" data-emoji="😊" aria-label="Shy smile">😊</button>
+                <button type="button" class="emojiButton" data-emoji="🥺" aria-label="Sad watery eyes">🥺</button>
+                <button type="button" class="emojiButton" data-emoji="❤️" aria-label="Love heart">❤️</button>
+                <button type="button" class="emojiButton" data-emoji="😈" aria-label="Purple devil">😈</button>
+                <button type="button" class="emojiButton" data-emoji="😒" aria-label="Side eye">😒</button>
+                <button type="button" class="emojiButton" data-emoji="🙄" aria-label="Eye roll">🙄</button>
+            </div>
 
             <div id="mySection">
                 <div id="messageInputWrapper">
