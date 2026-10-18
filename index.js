@@ -40,16 +40,16 @@ if (!hasNames) {
     messageInput.placeholder = "Choose names in settings!";
 } else {
     const placeholders = [
-        `Tell ${partnerName} something sweet`,
-        `Send ${partnerName} a love note`,
+        `Tell ${partnerName} something you love about them`,
+        `Ask ${partnerName} what made them smile today`,
         `Tell ${partnerName} about your day`,
         `Send ${partnerName} a quick check-in`,
         `Ask ${partnerName} about their day`,
         `Send ${partnerName} a little kiss`,
-        `Give ${partnerName} a compliment`,
+        `Give ${partnerName} a compliment that will make them blush`,
         `Tell ${partnerName} you miss them`,
-        `Give ${partnerName} a virtual hug`,
-        `Share a memory with ${partnerName}`,
+        `Tell ${partnerName} why you love them`,
+        `Share a memory you had with ${partnerName} that was unforgettable`,
     ];
 
     messageInput.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
@@ -278,3 +278,17 @@ if (savedPartnerAvatar) {
 getMessages();   // load the conversation right away instead of waiting 5 seconds
 let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(updateAvatarFade, 1000);
+
+// ---------- keep the layout inside the visible screen (keyboard open or closed for iPhone) ----------
+const fitToVisibleScreen = function () {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    document.documentElement.style.setProperty("--app-height", vv.height + "px");
+    document.documentElement.style.setProperty("--app-top", vv.offsetTop + "px");
+};
+
+if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", fitToVisibleScreen);
+    window.visualViewport.addEventListener("scroll", fitToVisibleScreen);
+}
+fitToVisibleScreen();

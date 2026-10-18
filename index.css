@@ -20,6 +20,7 @@
      --paper-color: #fffaf0;
     --envelope-color: #f2b8c6;
     --envelope-back: #e49aae;
+    --letter-inset: 3%;
 }
 
 :root[data-theme="dark"] {
@@ -46,7 +47,18 @@
     filter: brightness(115%);
 }
 
+
+    html {
+    overflow: hidden;
+}
+
 body {
+    position: fixed;
+    top: var(--app-top, 0px);
+    left: 0;
+    right: 0;
+    height: var(--app-height, 100dvh);
+    overflow: hidden;
     background-image: var(--screen-background-image);
     background-color: var(--page-fallback-color);
     background-size: cover;
@@ -56,7 +68,6 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
-    gap: 16px;
 }
 
 body, a, button {
@@ -85,8 +96,7 @@ a {
     align-items: center;
     justify-content: flex-start;
     gap: 16px;
-    height: 100vh;     /* fallback for older browsers */
-    height: 100dvh;    /* the visible screen height on phones, so no scrolling */
+    height: 100%;
     padding: 16px;
     font-family: Arial, Helvetica, sans-serif;
     color: var(--text-color);
@@ -98,6 +108,16 @@ a {
     flex-direction: row;
     text-align: center;
     justify-content: flex-end;
+}
+
+#settingsLink {
+    display: flex;
+    color: var(--text-color);   /* black in light mode, off-white in dark mode */
+    transition: transform 300ms ease;
+}
+
+#settingsLink:hover {
+    transform: rotate(60deg);   /* optional: a little turn on hover */
 }
 
 #messagingPanel {
@@ -123,7 +143,7 @@ a {
 }
 
 #avatarAnimation {
-    width: 100%;
+    width: calc(100% - 2 * var(--letter-inset));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,7 +239,7 @@ img {
     position: relative;
     width: 100%;
     flex: 1;
-    min-height: 170px;
+    min-height: 130px;
 }
 
 /* the back of the envelope, visible at the sides of the letter */
@@ -240,8 +260,8 @@ img {
     position: absolute;
     z-index: 1;
     top: 0;
-    left: 3%;
-    right: 3%;
+    left: var(--letter-inset);
+    right: var(--letter-inset);
     bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -278,7 +298,8 @@ img {
     content: "";
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M0 100 L50 30 L100 100' fill='none' stroke='rgba(0,0,0,0.18)' stroke-width='1' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
+    border-radius: 0 0 14px 14px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M3 97 L50 30 L97 97' fill='none' stroke='rgba(0,0,0,0.18)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
 }
 
 /* little heart seal */
@@ -575,7 +596,7 @@ img {
 
 @media (max-width: 600px) {
     #mainContainer {
-        max-width: none;       /* use the whole screen width */
+        max-width: none;
         padding: 12px;
         gap: 12px;
     }
@@ -586,13 +607,15 @@ img {
     }
 
     #avatarAnimation {
-        height: clamp(120px, 28dvh, 260px);
+        height: clamp(90px, 28dvh, 260px);
+        min-height: 60px;
+        flex-shrink: 1;
     }
 
     #partnerAvatar {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: top center;   /* keeps the face visible when cropping */
+        object-position: top center;
     }
 }
