@@ -116,6 +116,37 @@ a {
     border-radius: 16px;
     overflow: hidden;
 }
+/*testing animation*/
+
+#avatarAnimation {
+    overflow: hidden;       /* the box stays fixed and clips the image */
+    border-radius: 16px;
+}
+
+#partnerAvatar {
+    display: block;
+    transform: scale(1.1);  /* base zoom so movement never shows gaps */
+    animation: idle 3s ease-in-out infinite;
+}
+
+@keyframes idle {
+    0%, 100% { transform: translateY(0) scale(1.1); }
+    50%      { transform: translateY(-4px) scale(1.13); }
+}
+
+#partnerAvatar {
+    display: block;
+    transform-origin: top center;   /* zoom grows downward, so the top stays visible */
+    transform: scale(1.1);
+    animation: idle 3s ease-in-out infinite;
+}
+
+@keyframes hop {
+    0%, 100% { transform: translateY(0) rotate(0) scale(1.1); }
+    30%      { transform: translateY(4px) rotate(-2deg) scale(1.1); }
+    60%      { transform: translateY(0) rotate(2deg) scale(1.1); }
+}
+/*testing animation */
 
 img {
     width: 100%;

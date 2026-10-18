@@ -29,6 +29,19 @@ const placeholders = [
 
 messageInput.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
 
+//testing animation
+let lastSeenTime = 0;
+
+const makeAvatarHop = function () {
+    partnerAvatar.classList.remove("excited");
+    void partnerAvatar.offsetWidth;   // restarts the animation if it's already running
+    partnerAvatar.classList.add("excited");
+    partnerAvatar.addEventListener("animationend", () => {
+        partnerAvatar.classList.remove("excited");
+    }, { once: true });
+};
+//testing animation
+
 const getMessages = async function() {
     let URL = `https://messengerbackend-beta.vercel.app/api/messages?room=partnercheckin`;
     let response = await fetch(URL);
@@ -39,6 +52,10 @@ const getMessages = async function() {
         if (fromPartner.length > 0) {
             let lastMessage = fromPartner[fromPartner.length - 1];
             messageReceived.textContent = lastMessage.text;
+            if (lastMessage.time && lastMessage.time > lastSeenTime) {
+    lastSeenTime = lastMessage.time;
+    makeAvatarHop();
+}
             let timeElapsed = Date.now() - lastMessage.time;       
             if (timeElapsed < 10000) {
                 avatarAnimation.style.opacity = 1;
