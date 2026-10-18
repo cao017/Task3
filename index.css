@@ -12,13 +12,13 @@
     --input-border-color: #cccccc;
     --input-border-focus: #888888;
     --scrollbar-thumb: rgba(0, 0, 0, 0.3);
-     --button-front: hsl(345deg 100% 47%);
+    --button-front: hsl(345deg 100% 47%);
     --button-edge-dark: hsl(340deg 100% 16%);
     --button-edge-light: hsl(340deg 100% 32%);
 }
 
 :root[data-theme="dark"] {
-  --screen-background-image: url("images/DarkMode1.png");
+    --screen-background-image: url("images/DarkMode1.png");
     --page-fallback-color: #3a1515;
     --background-color: rgba(70, 25, 25, 0.8);
     --surface-color: #5a3a5a;
@@ -33,8 +33,9 @@
 }
 
 :root[data-theme="dark"] .button-82-pushable:hover {
-  filter: brightness(115%);
+    filter: brightness(115%);
 }
+
 body {
     background-image: var(--screen-background-image);
     background-color: var(--page-fallback-color);
@@ -94,9 +95,9 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 100%;
+    flex: 1;              /* fills the space under the header, instead of height: 100% */
+    min-height: 0;        /* lets it shrink instead of overflowing the page */
     gap: 16px;
-    
 }
 
 #partnerSection {
@@ -105,6 +106,8 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    flex: 1;              /* takes all the space above the type box */
+    min-height: 0;
     gap: 16px;
 }
 
@@ -114,39 +117,84 @@ a {
     justify-content: center;
     align-items: center;
     border-radius: 16px;
-    overflow: hidden;
-}
-/*testing animation*/
-
-#avatarAnimation {
-    overflow: hidden;       /* the box stays fixed and clips the image */
-    border-radius: 16px;
-}
-
-#partnerAvatar {
-    display: block;
-    transform: scale(1.1);  /* base zoom so movement never shows gaps */
-    animation: idle 3s ease-in-out infinite;
-}
-
-@keyframes idle {
-    0%, 100% { transform: translateY(0) scale(1.1); }
-    50%      { transform: translateY(-4px) scale(1.13); }
+    overflow: hidden;     /* the box stays fixed and clips the image */
+    flex-shrink: 0;       /* the avatar never gets squashed */
 }
 
 #partnerAvatar {
     display: block;
     transform-origin: top center;   /* zoom grows downward, so the top stays visible */
-    transform: scale(1.1);
+    transform: scale(1.1);          /* base zoom so movement never shows gaps */
     animation: idle 3s ease-in-out infinite;
 }
 
+/* ---------- idle (constant gentle movement) ---------- */
+@keyframes idle {
+    0%, 100% { transform: translateY(0) scale(1.1); }
+    50%      { transform: translateY(3px) scale(1.13); }
+}
+
+/* ---------- message animations ---------- */
 @keyframes hop {
     0%, 100% { transform: translateY(0) rotate(0) scale(1.1); }
     30%      { transform: translateY(4px) rotate(-2deg) scale(1.1); }
     60%      { transform: translateY(0) rotate(2deg) scale(1.1); }
 }
-/*testing animation */
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-2deg) scale(1.1); }
+    50%      { transform: rotate(2deg) scale(1.1); }
+}
+
+@keyframes drift {
+    0%, 100% { transform: translateX(-4px) scale(1.1); }
+    50%      { transform: translateX(4px) scale(1.1); }
+}
+
+@keyframes squish {
+    0%, 100% { transform: scale(1.1, 1.1); }
+    30%      { transform: scale(1.14, 1.06); }
+    60%      { transform: scale(1.07, 1.13); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0) scale(1.1); }
+    20%      { transform: translateX(-4px) scale(1.1); }
+    40%      { transform: translateX(4px) scale(1.1); }
+    60%      { transform: translateX(-3px) scale(1.1); }
+    80%      { transform: translateX(3px) scale(1.1); }
+}
+
+@keyframes heartbeat {
+    0%, 40%, 100% { transform: scale(1.1); }
+    15%           { transform: scale(1.16); }
+    30%           { transform: scale(1.12); }
+}
+
+@keyframes flash {
+    0%, 100% { transform: scale(1.1); filter: brightness(1); }
+    30%      { transform: scale(1.1); filter: brightness(1.6); }
+}
+
+@keyframes glow {
+    0%, 100% { transform: scale(1.1); filter: brightness(1); }
+    50%      { transform: scale(1.1); filter: brightness(1.15) saturate(1.2); }
+}
+
+/* ---------- one class per animation (added by index.js) ---------- */
+#partnerAvatar.anim-hop       { animation: hop 0.6s ease-out 2; }
+#partnerAvatar.anim-sway      { animation: sway 0.8s ease-in-out 2; }
+#partnerAvatar.anim-drift     { animation: drift 0.9s ease-in-out 2; }
+#partnerAvatar.anim-squish    { animation: squish 0.7s ease-in-out 2; }
+#partnerAvatar.anim-shake     { animation: shake 0.5s ease-in-out 1; }
+#partnerAvatar.anim-heartbeat { animation: heartbeat 0.8s ease-in-out 2; }
+#partnerAvatar.anim-flash     { animation: flash 0.6s ease-in-out 1; }
+#partnerAvatar.anim-glow      { animation: glow 1s ease-in-out 2; }
+
+/* turn off movement for people who have reduced motion enabled in their system */
+@media (prefers-reduced-motion: reduce) {
+    #partnerAvatar { animation: none !important; }
+}
 
 img {
     width: 100%;
@@ -154,6 +202,43 @@ img {
     object-fit: cover;
 }
 
+/* ---------- received message (box + scrolling) ---------- */
+#messageReceivedWrapper {
+    width: 100%;
+    flex: 0 1 auto;       /* only as tall as the text, but shrinks when space runs out */
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 8px 12px 16px;
+    background-color: var(--input-field-color);
+    border-radius: 24px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#messageReceived {
+    min-height: 26px;
+    overflow-y: auto;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding-right: 8px;   /* keeps text clear of the scrollbar */
+}
+
+#messageReceived::-webkit-scrollbar {
+    width: 6px;
+}
+
+#messageReceived::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#messageReceived::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+
+/* ---------- type box ---------- */
 #mySection {
     width: 100%;
     display: flex;
@@ -210,21 +295,7 @@ img {
     border-radius: 3px;
 }
 
-#messageReceived {
-    width: 100%;
-    min-height: 50px;
-    background-color: var(--input-field-color);
-    border-radius: 24px;
-    padding: 12px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-}
-
+/* ---------- send button ---------- */
 .button-82-pushable {
   position: relative;
   border: none;
