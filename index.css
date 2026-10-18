@@ -101,19 +101,49 @@ img {
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+
+    #messageInput {
+    width: 100%;          /* fixed width, never grows sideways */
+    resize: none;         /* hide the drag handle */
+    overflow: hidden;     /* no scrollbar while it grows */
+    max-height: 150px;    /* stop growing after a while */
+    font-family: inherit; /* textareas use a different font by default */
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 12px;
+    border-radius: 24px;
+    border: 1px solid #ccc;
 }
+}
+
+#messageInput {
+    box-sizing: border-box;
+    padding: 14px 20px;
+    scrollbar-width: none;   
+}
+
+#messageInput::-webkit-scrollbar {
+    display: none;  
+    
+}
+
 
 #messageReceived {
     width: 100%;
     min-height: 50px;
     background-color: var(--input-field-color);
-    border-radius: 8px;
+    border-radius: 24px;
     padding: 8px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 100%;
+    white-space: pre-wrap;        /* keeps Shift+Enter line breaks */
+    overflow-wrap: anywhere;      /* breaks long words to fit */
 }
+
+
 
 .button-82-pushable {
   position: relative;
@@ -134,7 +164,7 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 24px;
   background: hsl(0deg 0% 0% / 0.25);
   will-change: transform;
   transform: translateY(2px);
@@ -150,7 +180,7 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 24px;
   background: linear-gradient(
     to left,
     hsl(340deg 100% 16%) 0%,
@@ -164,7 +194,7 @@ img {
   display: block;
   position: relative;
   padding: 10px 20px;
-  border-radius: 12px;
+  border-radius: 24px;
   font-size: 1.1rem;
   color: white;
   background: hsl(345deg 100% 47%);
@@ -221,7 +251,7 @@ img {
 #messageInput {
     flex: 1;
     padding: 14px;
-    border-radius: 14px;
+    border-radius: 24px;
     border: 1px solid #ccc;
     background-color: var(--input-field-color);
        font-family: Arial, Helvetica, sans-serif;

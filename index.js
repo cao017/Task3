@@ -1,4 +1,3 @@
-
 //   GET  /api/messages?room=blue-fox-42        → the last 50 messages in that room
 //   POST /api/messages  { room, from, text }   → adds a message to that room
 
@@ -50,24 +49,34 @@ const getMessages = async function() {
     console.log(results);
 }
 
-const postMessage = async function() {
-    
-    let URL = `https://messengerbackend-beta.vercel.app/api/messages`;
-    let response = await fetch(URL, {
+const autoGrow = function () {
+    messageInput.style.height = "auto";
+    messageInput.style.height = messageInput.scrollHeight + "px";
+    messageInput.style.overflowY = messageInput.scrollHeight > 150 ? "auto" : "hidden";
+};
+
+messageInput.addEventListener("input", autoGrow);
+
+const sendMessage = async function() {
+    const text = messageInput.value.trim();
+    if (text === "") return;
+
+    await fetch(`https://messengerbackend-beta.vercel.app/api/messages`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             room: "partnercheckin",
-            from: localStorage.getItem("myName"),
-            text: messageInput.value
+            from: myName,
+            text: text
         })
     });
-    let results = await response.json();
-    console.log(results);
 
+    messageReceived.textContent = text;
+    messageInput.value = "";
+    autoGrow();
 }
+
+sendMessageButton.addEventListener("click", sendMessage);
 
 const fadeAvatar = function() {
     avatarAnimation.style.opacity = avatarAnimation.style.opacity * 0.99;
@@ -80,21 +89,10 @@ if (savedPartnerAvatar) {
 let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(fadeAvatar, 100);
 
-
-const mySendButton = document.getElementById("sendButton");
-const myMessageInput = document.getElementById("messageInput");
-const myMessageBox = document.getElementById("messageReceived");
-
-mySendButton.addEventListener("click", () => {
-    const text = myMessageInput.value.trim();
-    if (text === "") return;          // ignore empty messages
-    myMessageBox.textContent = text; // show the message
-    myMessageInput.value = "";          // clear the input box
-});
-
 // Optional: also send when pressing Enter
-myMessageInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") mySendButton.click();
-
-    
+messageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();   // stops the newline from being inserted
+        sendMessage();
+    }
 });
