@@ -48,8 +48,14 @@
 }
 
 
-    html {
+   html {
+    height: 100%;
     overflow: hidden;
+    background-image: var(--screen-background-image);
+    background-color: var(--page-fallback-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 body {
@@ -59,11 +65,6 @@ body {
     right: 0;
     height: var(--app-height, 100dvh);
     overflow: hidden;
-    background-image: var(--screen-background-image);
-    background-color: var(--page-fallback-color);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
