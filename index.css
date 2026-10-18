@@ -138,10 +138,12 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    flex: 1;              /* takes all the space above the type box */
+    flex: 1;
     min-height: 0;
+    overflow: hidden;     /* anything too tall gets clipped instead of covering the emojis */
     gap: 16px;
 }
+
 
 #avatarAnimation {
     width: calc(100% - 2 * var(--letter-inset));
@@ -409,6 +411,9 @@ img {
     display: flex;
     justify-content: space-between;
     gap: 4px;
+    flex-shrink: 0;       /* the bar never gets squashed */
+    position: relative;
+    z-index: 5;           /* always above the envelope */
 }
 
 .emojiButton {
@@ -600,6 +605,9 @@ img {
         max-width: none;
         padding: 12px;
         gap: 12px;
+            .typing #avatarAnimation {
+        display: none;
+    }
     }
 
     #messagingPanel,

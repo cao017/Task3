@@ -70,7 +70,7 @@ body, a, button {
     height: 100vh;     /* fallback for older browsers */
     height: 100dvh;    /* the visible screen height on phones, so no scrolling */
     padding: 16px;
-    
+
     .name-section input {
     font-size: 1rem;   /* 16px or larger stops iOS from auto-zooming */
 }
@@ -287,3 +287,4 @@ body, a, button {
         object-position: top center;   /* keeps the face visible when cropping */
     }
 }
+

@@ -292,3 +292,18 @@ if (window.visualViewport) {
     window.visualViewport.addEventListener("scroll", fitToVisibleScreen);
 }
 fitToVisibleScreen();
+
+// ---------- phone: hide the avatar while typing, so the messages get the space ----------
+const phoneQuery = window.matchMedia("(max-width: 600px)");
+
+messageInput.addEventListener("focus", () => {
+    if (phoneQuery.matches) document.documentElement.classList.add("typing");
+});
+
+messageInput.addEventListener("blur", () => {
+    document.documentElement.classList.remove("typing");
+});
+
+// tapping Send shouldn't take focus from the text box, otherwise the keyboard closes
+// mid-tap and the layout jumps (the keyboard now stays open after sending, like a normal chat app)
+sendMessageButton.addEventListener("mousedown", (e) => e.preventDefault());
