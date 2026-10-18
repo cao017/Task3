@@ -15,6 +15,8 @@
     --button-front: hsl(345deg 100% 47%);
     --button-edge-dark: hsl(340deg 100% 16%);
     --button-edge-light: hsl(340deg 100% 32%);
+    --bubble-mine: #eeb3ee;
+    --bubble-theirs: #48a1b1;
 }
 
 :root[data-theme="dark"] {
@@ -30,6 +32,8 @@
     --button-front: hsl(345deg 100% 29%);        /* same as rgb(150, 0, 40) */
     --button-edge-dark: hsl(340deg 100% 10%);
     --button-edge-light: hsl(340deg 100% 18%);
+    --bubble-mine: #a55878;
+    --bubble-theirs: #25585f;
 }
 
 :root[data-theme="dark"] .button-82-pushable:hover {
@@ -202,67 +206,94 @@ img {
     object-fit: cover;
 }
 
-/* ---------- received message (box + scrolling) ---------- */
-#messageReceivedWrapper {
+/* ---------- chat log ---------- */
+#chatLogWrapper {
     width: 100%;
-    flex: 0 1 auto;       /* only as tall as the text, but shrinks when space runs out */
-    min-height: 0;
+    flex: 1;                 /* fills the space between the avatar and the type box */
+    min-height: 80px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 12px 8px 12px 16px;
+    padding: 12px 8px 12px 12px;
     background-color: var(--input-field-color);
     border-radius: 24px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-#messageReceived {
-    min-height: 26px;
+#chatLog {
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
-    text-align: left;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    padding-right: 8px;   /* keeps text clear of the scrollbar */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 6px;      /* keeps bubbles clear of the scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
-#messageReceived::-webkit-scrollbar {
+#chatLog:empty::before {
+    content: "No messages yet";
+    margin: auto;
+    opacity: 0.5;
+}
+
+#chatLog::-webkit-scrollbar {
     width: 6px;
 }
 
-#messageReceived::-webkit-scrollbar-track {
+#chatLog::-webkit-scrollbar-track {
     background: transparent;
 }
 
-#messageReceived::-webkit-scrollbar-thumb {
+#chatLog::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb);
     border-radius: 3px;
 }
 
-#messageMeta {
+.chatMessage {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 16px;
+    flex-shrink: 0;
+}
+
+.chatMessage.mine {
+    align-self: flex-end;
+    background-color: var(--bubble-mine);
+    border-bottom-right-radius: 4px;
+}
+
+.chatMessage.theirs {
+    align-self: flex-start;
+    background-color: var(--bubble-theirs);
+    border-bottom-left-radius: 4px;
+}
+
+.chatMeta {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 8px;
-    padding: 0 8px 6px 0;
-    margin-bottom: 6px;
-    font-size: 0.8rem;
-    flex-shrink: 0;       /* the header never gets squashed or scrolled away */
+    gap: 12px;
+    margin-bottom: 4px;
 }
 
-#messageMeta[hidden] {
-    display: none;        /* display: flex would otherwise override hidden */
-}
-
-#messageSender {
-  font-size: 0.7rem;
+.chatSender {
+    font-size: 0.7rem;
     font-style: italic;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#messageTime {
+.chatTime {
     opacity: 0.6;
     font-size: 0.7rem;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.chatText {
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 /* ---------- type box ---------- */

@@ -1,16 +1,11 @@
 //   GET  /api/messages?room=blue-fox-42        → the last 50 messages in that room
 //   POST /api/messages  { room, from, text }   → adds a message to that room
 
-const getMessagesButton = document.getElementById("getMessagesButton");
 const sendMessageButton = document.getElementById("sendButton");
-const partnerNameLogo = document.getElementById("partnerNameLogo");
 const messageInput = document.getElementById("messageInput");
 const avatarAnimation = document.getElementById("avatarAnimation");
 const partnerAvatar = document.getElementById("partnerAvatar");
-const messageReceived = document.getElementById("messageReceived");
-const messageMeta = document.getElementById("messageMeta");
-const messageSender = document.getElementById("messageSender");
-const messageTime = document.getElementById("messageTime");
+const chatLog = document.getElementById("chatLog");
 avatarAnimation.style.opacity = 1;
 
 // retrieve the names from localStorage: this is persistent between sessions
@@ -63,7 +58,7 @@ if (!hasNames) {
 
 autoGrow();
 
-// ---------- showing a message with its sender and time ----------
+// ---------- chat log ----------
 const formatTime = function (ms) {
     const date = new Date(ms);
     const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -74,12 +69,42 @@ const formatTime = function (ms) {
     return `${date.toLocaleDateString([], { day: "numeric", month: "short" })}, ${time}`;
 };
 
-const showMessage = function (senderName, text, time) {
-    messageSender.textContent = senderName;
-    messageTime.textContent = formatTime(time);
-    messageMeta.hidden = false;
-    messageReceived.textContent = text;
-    messageReceived.scrollTop = 0;
+const seenKeys = new Set();     // messages already on screen (from the server)
+const pendingMine = [];         // messages I just sent, waiting for the server to echo them back
+
+const addMessage = function (from, text, time) {
+    const isMine = from === myName;
+
+    // only auto-scroll if I sent it, or I was already at the bottom
+    const wasAtBottom = chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 40;
+
+    const bubble = document.createElement("div");
+    bubble.className = "chatMessage " + (isMine ? "mine" : "theirs");
+
+    const meta = document.createElement("div");
+    meta.className = "chatMeta";
+
+    const sender = document.createElement("span");
+    sender.className = "chatSender";
+    sender.textContent = from;
+
+    const timeEl = document.createElement("span");
+    timeEl.className = "chatTime";
+    timeEl.textContent = formatTime(time);
+
+    const body = document.createElement("div");
+    body.className = "chatText";
+    body.textContent = text;
+
+    meta.append(sender, timeEl);
+    bubble.append(meta, body);
+    chatLog.append(bubble);
+
+    if (isMine || wasAtBottom) {
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    return { bubble, timeEl };
 };
 
 // ---------- random avatar animations ----------
@@ -88,7 +113,6 @@ const avatarAnimations = [
     "anim-shake", "anim-heartbeat", "anim-flash", "anim-glow"
 ];
 
-let lastSeenTime = 0;
 let lastAnimation = "";
 
 const playRandomAvatarAnimation = function () {
@@ -108,29 +132,43 @@ const playRandomAvatarAnimation = function () {
 };
 
 // ---------- receiving ----------
+let firstLoad = true;   // the first fetch loads history, so it shouldn't trigger animations
+
 const getMessages = async function() {
     try {
         let URL = `https://messengerbackend-beta.vercel.app/api/messages?room=partnercheckin`;
         let response = await fetch(URL);
         let results = await response.json();
 
-        if (Array.isArray(results) && results.length > 0) {
-            let fromPartner = results.filter((message) => message.from === partnerName);
-            if (fromPartner.length > 0) {
-                let lastMessage = fromPartner[fromPartner.length - 1];
+        if (Array.isArray(results)) {
+            // oldest first, whatever order the server returns them in
+            results.sort((a, b) => (a.time || 0) - (b.time || 0));
 
-                // only show it when it's new, so it doesn't keep replacing your own message
-                if (lastMessage.time && lastMessage.time > lastSeenTime) {
-                    lastSeenTime = lastMessage.time;
-                    showMessage(partnerName, lastMessage.text, lastMessage.time);
+            for (const message of results) {
+                const key = `${message.from}|${message.time}|${message.text}`;
+                if (seenKeys.has(key)) continue;
+                seenKeys.add(key);
+
+                // one of mine that I already showed locally: just fix its time
+                if (message.from === myName) {
+                    const index = pendingMine.findIndex((p) => p.text === message.text);
+                    if (index !== -1) {
+                        pendingMine[index].timeEl.textContent = formatTime(message.time);
+                        pendingMine.splice(index, 1);
+                        continue;
+                    }
+                }
+
+                addMessage(message.from, message.text, message.time);
+
+                // a new message from my partner (not history)
+                if (!firstLoad && message.from !== myName) {
+                    avatarAnimation.style.opacity = 1;
                     playRandomAvatarAnimation();
                 }
-
-                let timeElapsed = Date.now() - lastMessage.time;
-                if (timeElapsed < 10000) {
-                    avatarAnimation.style.opacity = 1;
-                }
             }
+
+            firstLoad = false;
         }
 
         console.log(results);
@@ -152,7 +190,8 @@ const sendMessage = async function() {
     }
 
     // shown right away so you can test the frontend without a backend
-    showMessage(myName, text, Date.now());
+    const shown = addMessage(myName, text, Date.now());
+    pendingMine.push({ text: text, timeEl: shown.timeEl });
     avatarAnimation.style.opacity = "1";
     playRandomAvatarAnimation();   // temporary: remove once partner messages arrive
 
@@ -197,5 +236,6 @@ if (savedPartnerAvatar) {
 }
 
 // ---------- timers ----------
+getMessages();   // load the conversation right away instead of waiting 5 seconds
 let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(fadeAvatar, 100);
