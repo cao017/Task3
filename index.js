@@ -72,6 +72,7 @@ const sendMessage = async function() {
     });
 
     messageReceived.textContent = text;
+    avatarAnimation.style.opacity = "1";
     messageInput.value = "";
     autoGrow();
 }
