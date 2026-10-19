@@ -687,7 +687,7 @@ img {
         z-index: 5; /* Keep Settings visible and tappable above the chat area. */
         flex-shrink: 0; /* Prevent the header from collapsing in the compact layout. */
         align-items: center; /* Vertically align the logo and Settings icon. */
-        justify-content: space-between; /* Keep the centered logo area beside the right-aligned Settings icon. */
+        justify-content: space-between; /* Put the logo on the left and Settings on the right. */
         gap: 8px; /* Keep a small gap between the logo and Settings. */
     }
 
@@ -697,14 +697,14 @@ img {
         min-width: 0; /* Allow the logo area to shrink without pushing Settings off-screen. */
         height: 51px; /* Make the compact logo about three times its previous 17px height. */
         width: auto; /* Override the normal partner-section width in the header. */
-        justify-content: center; /* Center the logo image within its available area. */
+        justify-content: flex-end; /* Keep the logo close to the Settings icon. */
     }
 
     .typing #header > #logo .logo {
         width: 100%; /* Let the logo use the header's remaining width. */
         height: 100%; /* Let it use the full 51px logo area. */
         object-fit: contain; /* Preserve its proportions without cropping. */
-        object-position: center; /* Center the logo within the space beside Settings. */
+        object-position: right center; /* Align the logo toward Settings. */
     }
 
     .typing #mainContainer {

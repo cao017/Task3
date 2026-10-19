@@ -297,19 +297,18 @@ body, a, button {
 /* Phone layout: fit settings and all controls inside the visible screen. */
 @media (max-width: 600px) {
     body {
-        position: fixed; /* Anchor the settings page to the phone's visible viewport. */
-        inset: 0; /* Pin all four body edges to the viewport. */
-        width: 100%; /* Fill the viewport horizontally. */
         height: 100vh; /* Fallback phone viewport height for older browsers. */
         height: 100dvh; /* Match the visible dynamic phone viewport. */
+        min-height: 100dvh; /* Ensure the body itself spans the phone's visible height. */
         overflow: hidden; /* Prevent the page beneath the panel from scrolling. */
-        align-items: stretch; /* Stretch the settings panel across the viewport. */
+        align-items: stretch; /* Let the settings panel stretch to the body's full height. */
     }
 
     #mainContainer {
         max-width: none; /* Let the settings panel use the phone's full width. */
-        height: 100%; /* Fill the body's viewport height. */
-        min-height: 100%; /* Prevent flex layout from shortening the panel. */
+        height: 100vh; /* Fallback height for the panel. */
+        height: 100dvh; /* Fill the visible phone viewport. */
+        min-height: 100dvh; /* Prevent flex layout from shortening the panel. */
         overflow: hidden; /* Hide content extending below the panel's visible area. */
         flex: 1; /* Fill the body's available phone-screen height. */
         padding: 12px; /* Keep controls inset from the phone edges. */
