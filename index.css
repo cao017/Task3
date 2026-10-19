@@ -607,6 +607,46 @@ img {
         gap: 12px;
             .typing #avatarAnimation {
         display: none;
+         #messageInput {
+        max-height: min(96px, 16dvh);   /* about 4 lines, then it scrolls */
+    }
+
+    #envelope {
+        min-height: 140px;              /* the letter can never be squeezed below this */
+            /* while typing: hide the header and use a smaller pocket so the letter gets the room */
+    .typing #header {
+        display: none;
+    }
+
+    .typing #mainContainer {
+        padding-top: 8px;
+        gap: 8px;
+    }
+
+    .typing #messagingPanel,
+    .typing #partnerSection {
+        gap: 8px;
+    }
+
+    .typing #envelope::before {
+        height: 52px;
+    }
+
+    .typing #envelopeFront {
+        height: 44px;
+    }
+
+    .typing #chatLogWrapper {
+        bottom: 14px;
+        padding-bottom: 32px;   /* keeps messages just above the smaller pocket */
+    }
+
+    .typing #envelopeSeal {
+        width: 22px;
+        height: 22px;
+        font-size: 0.75rem;
+    }
+    }
     }
     }
 

@@ -25,8 +25,10 @@ const autoGrow = function () {
         neededHeight = messageInput.scrollHeight;
     }
 
-    messageInput.style.height = neededHeight + "px";
-    messageInput.style.overflowY = neededHeight > 150 ? "auto" : "hidden";
+     messageInput.style.height = neededHeight + "px";
+    // the CSS max-height clamps the box; scroll only if the text is taller than what's visible
+    messageInput.style.overflowY =
+        messageInput.scrollHeight > messageInput.clientHeight + 1 ? "auto" : "hidden";
 };
 
 messageInput.addEventListener("input", autoGrow);
