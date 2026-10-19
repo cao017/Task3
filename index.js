@@ -1,6 +1,7 @@
 //   GET  /api/messages?room=blue-fox-42        → the last 50 messages in that room
 //   POST /api/messages  { room, from, text }   → adds a message to that room
 
+
 const sendMessageButton = document.getElementById("sendButton");
 const messageInput = document.getElementById("messageInput");
 const avatarAnimation = document.getElementById("avatarAnimation");
