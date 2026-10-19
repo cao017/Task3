@@ -73,7 +73,6 @@ document.querySelectorAll(".emojiButton").forEach((button) => {
             messageInput.selectionEnd,
             "end"
         );
-        messageInput.focus();
         autoGrow();
         sendMessage();
     });
