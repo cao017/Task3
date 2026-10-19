@@ -142,8 +142,34 @@ a {
     min-height: 0;
     overflow: hidden;     /* anything too tall gets clipped instead of covering the emojis */
     gap: 16px;
+    
 }
 
+/* ---------- logo ---------- */
+#logo {
+    width: calc(100% - 2 * var(--letter-inset));
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-dark {
+    display: none;
+}
+
+:root[data-theme="dark"] .logo-light {
+    display: none;
+}
+
+:root[data-theme="dark"] .logo-dark {
+    display: block;
+}
 
 #avatarAnimation {
     width: calc(100% - 2 * var(--letter-inset));
@@ -609,6 +635,9 @@ img {
         display: none;
          #messageInput {
         max-height: min(96px, 16dvh);   /* about 4 lines, then it scrolls */
+         .typing #logo {
+        display: none;
+    }
     }
 
     #envelope {

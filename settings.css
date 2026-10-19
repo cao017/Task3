@@ -83,6 +83,31 @@ body, a, button {
 }
 }
 
+#logo {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo-dark {
+    display: none;
+}
+
+:root[data-theme="dark"] .logo-light {
+    display: none;
+}
+
+:root[data-theme="dark"] .logo-dark {
+    display: block;
+}
+
 .name-section,
 #chooseAvatarSection {
     width: 100%;
@@ -287,4 +312,3 @@ body, a, button {
         object-position: top center;   /* keeps the face visible when cropping */
     }
 }
-
