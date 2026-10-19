@@ -7,6 +7,9 @@ const messageInput = document.getElementById("messageInput"); // Finds the text 
 const avatarAnimation = document.getElementById("avatarAnimation"); // Finds the avatar wrapper whose opacity fades.
 const partnerAvatar = document.getElementById("partnerAvatar"); // Finds the avatar image to switch and animate.
 const chatLog = document.getElementById("chatLog"); // Finds the scrollable list where message bubbles are rendered.
+const logo = document.getElementById("logo"); // Finds the one logo element that moves between the header and partner section.
+const header = document.getElementById("header"); // Finds the header where the logo sits beside Settings while typing.
+const partnerSection = document.getElementById("partnerSection"); // Finds the logo's normal position above the avatar.
 
 // retrieve the names from localStorage: this is persistent between sessions
 let myName = localStorage.getItem("myName"); // Loads this user's saved display name.
@@ -333,6 +336,12 @@ const updateTypingLayout = function () {
         messageInputFocused && // The user is interacting with the message field.
         largestViewportHeight - viewportHeight > 100; // The viewport has shrunk enough to indicate an open keyboard.
     document.documentElement.classList.toggle("typing", keyboardIsOpen); // Add/remove the CSS class that activates compact layout.
+
+    if (keyboardIsOpen && logo.parentElement !== header) {
+        header.prepend(logo); // Reuse the logo in the header instead of creating a second one.
+    } else if (!keyboardIsOpen && logo.parentElement !== partnerSection) {
+        partnerSection.prepend(logo); // Restore the logo above the avatar when the keyboard closes.
+    }
 };
 
 messageInput.addEventListener("focus", () => { // Recheck layout when the user enters the message field.

@@ -117,10 +117,6 @@ a {
     justify-content: flex-end; /* Align the Settings shortcut to the right. */
 }
 
-#headerLogo {
-    display: none; /* Show this alternate logo only in the phone keyboard layout. */
-}
-
 #settingsLink {
     display: flex; /* Let the icon link size itself to the SVG. */
     color: var(--text-color);   /* black in light mode, off-white in dark mode */
@@ -695,23 +691,20 @@ img {
         gap: 8px; /* Keep a small gap between the logo and Settings. */
     }
 
-    .typing #headerLogo {
-        display: flex; /* Show the large logo beside Settings while typing on a phone. */
+    .typing #header > #logo {
+        display: flex; /* Show the single logo beside Settings while typing on a phone. */
         flex: 1; /* Use all horizontal room left of the Settings button. */
         min-width: 0; /* Allow the logo area to shrink without pushing Settings off-screen. */
         height: 51px; /* Make the compact logo about three times its previous 17px height. */
+        width: auto; /* Override its normal width while it sits in the header. */
         justify-content: flex-end; /* Keep the logo close to the Settings icon. */
     }
 
-    .typing #headerLogo .logo {
+    .typing #header > #logo .logo {
         width: 100%; /* Let the logo use the header's remaining width. */
         height: 100%; /* Let it use the full 51px logo area. */
         object-fit: contain; /* Preserve its proportions without cropping. */
         object-position: right center; /* Align the logo toward Settings. */
-    }
-
-    .typing #partnerSection > #logo {
-        display: none; /* Avoid showing the normal logo again above the conversation. */
     }
 
     .typing #mainContainer {
