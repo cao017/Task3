@@ -1,72 +1,74 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> <!-- Tells the browser to use modern HTML parsing rules. -->
+<html> <!-- Root element of the document. -->
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" /> <!-- Supports emoji and international characters. -->
     
-    <title>Settings</title>
+    <title>Settings</title> <!-- Text shown in the browser tab. -->
     <!-- Apply the saved or system-preferred theme before the page styles are drawn. -->
     <script>
         document.documentElement.setAttribute(
-            "data-theme",
-            localStorage.getItem("theme") ||
-            (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+            "data-theme", // CSS reads this attribute to choose theme colors and images.
+            localStorage.getItem("theme") || // Reuse the user's saved theme when available.
+            (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") // Otherwise use the device appearance.
         );
     </script>
-    <link rel="stylesheet" type="text/css" href="settings.css" />
+    <link rel="stylesheet" type="text/css" href="settings.css" /> <!-- Loads styles for the Settings page. -->
 </head>
 <body>
     <!-- Settings content is grouped in a panel that fills the phone viewport. -->
     <div id="mainContainer">
         <!-- The stylesheet displays the logo matching the active theme. -->
-        <div id="logo">
-            <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" />
-            <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" />
+        <div id="logo"> <!-- CSS displays the logo that matches the current theme. -->
+            <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" /> <!-- Light-theme logo asset. -->
+            <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" /> <!-- Dark-theme logo asset. -->
         </div>
 
         <!-- Names shown on messages in the conversation. -->
         <div id="myName" class="name-section">
-            <div id="myNameLabel">My Name</div>
-            <input type="text" id="myNameInput" placeholder="Enter your name..." />
+            <div id="myNameLabel">My Name</div> <!-- Label for the user's own name. -->
+            <input type="text" id="myNameInput" placeholder="Enter your name..." /> <!-- Text field whose value is saved as myName. -->
         </div>
 
-        <div id="partnerName" class="name-section">
-            <div id="partnerNameLabel">Partner Name</div>
-            <input type="text" id="partnerNameInput" placeholder="Enter partner name..." />
+        <div id="partnerName" class="name-section"> <!-- Form section for the partner's name. -->
+            <div id="partnerNameLabel">Partner Name</div> <!-- Label for the partner-name field. -->
+            <input type="text" id="partnerNameInput" placeholder="Enter partner name..." /> <!-- Text field whose value is saved as partnerName. -->
         </div>
 
         <!-- Select which partner image appears in the main conversation view. -->
         <div id="chooseAvatarSection">
             <div id="chooseAvatarLabel">Choose your partner's photo</div>
             <label class="avatarChoice">
-                <input type="radio" name="avatar" value="images/NonBinary1.png" checked />
+                <input type="radio" name="avatar" value="images/NonBinary1.png" checked /> <!-- Radio choice stores this avatar path; checked selects it initially. -->
+                <!-- Preview begins with the light image and carries both paths for theme switching. -->
                 <img src="images/NonBinary1.png"
                      data-light="images/NonBinary1.png"
                      data-dark="images/DarkModeNonBinary1.png"
-                     width="100" height="100" />
+                     width="100" height="100" /> <!-- Intrinsic preview dimensions; CSS makes it responsive. -->
             </label>
             <label class="avatarChoice">
-                <input type="radio" name="avatar" value="images/NonBinary2.png" />
+                <input type="radio" name="avatar" value="images/NonBinary2.png" /> <!-- Alternative radio choice stores another avatar path. -->
+                <!-- Preview begins with the light image and carries both paths for theme switching. -->
                 <img src="images/NonBinary2.png"
                      data-light="images/NonBinary2.png"
                      data-dark="images/DarkModeNonBinary2.png"
-                     width="100" height="100" />
+                     width="100" height="100" /> <!-- Intrinsic preview dimensions; CSS makes it responsive. -->
             </label>
         </div>
 
         <!-- Switches the app theme and saves all settings to local storage. -->
-        <button id="themeToggle" type="button">🌙 Dark mode</button>
+        <button id="themeToggle" type="button">🌙 Dark mode</button> <!-- Switches between the saved light and dark themes. -->
 
         <!-- Saves the settings and returns to the conversation. -->
         <div id="saveButtonContainer">
-            <button id="saveButton" type="button" class="button-82-pushable" role="button">
-                <span class="button-82-shadow"></span>
-                <span class="button-82-edge"></span>
-                <span class="button-82-front text">Save</span>
+            <button id="saveButton" type="button" class="button-82-pushable" role="button"> <!-- Saves the name and avatar choices. -->
+                <span class="button-82-shadow"></span> <!-- Shadow layer under the button. -->
+                <span class="button-82-edge"></span> <!-- Colored side layer creates button depth. -->
+                <span class="button-82-front text">Save</span> <!-- Visible button face and label. -->
             </button>
         </div>
 
     </div>
     <!-- Page behavior: populate settings, handle avatar/theme changes, and save. -->
-    <script src="settings.js"></script>
+    <script src="settings.js"></script> <!-- Loads settings storage, theme, and button behavior. -->
 </body>
 </html>

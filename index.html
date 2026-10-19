@@ -1,76 +1,82 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> <!-- Tells the browser to use modern HTML parsing rules. -->
+<html> <!-- Root element of the document. -->
 <head>
-    <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
-    <title>PartnerCheckin</title>
+    <meta charset="UTF-8" /> <!-- Supports emoji and international characters. -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" /> <!-- Matches layout width to the device and allows keyboard-driven viewport resizing. -->
+    <title>PartnerCheckin</title> <!-- Text shown in the browser tab. -->
     <!-- Apply the saved or system-preferred theme before the page styles are drawn. -->
     <script>
         document.documentElement.setAttribute(
-            "data-theme",
-            localStorage.getItem("theme") ||
-            (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+            "data-theme", // CSS reads this attribute to choose theme colors and images.
+            localStorage.getItem("theme") || // Reuse the user's saved theme when available.
+            (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") // Otherwise use the device appearance.
         );
     </script>
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="index.css" /> <!-- Loads styles for the chat page. -->
 </head>
 <body>
     <!-- Main app panel contains the settings shortcut and messaging interface. -->
     <div id="mainContainer">
         <!-- Settings shortcut at the top of the app panel. -->
-        <div id="header">
+        <div id="header"> <!-- Top row containing the Settings shortcut. -->
+            <!-- This larger copy replaces the partner-section logo while the phone keyboard is open. -->
+            <div id="headerLogo">
+                <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" />
+                <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" />
+            </div>
             <div id="settingsIcon">
-                <a href="settings.html" id="settingsLink" aria-label="Settings">
+                <a href="settings.html" id="settingsLink" aria-label="Settings"> <!-- Opens Settings and names the icon link for assistive technology. -->
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">
-        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    <!-- Vector path coordinates draw the gear silhouette. -->
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
     </svg>
 </a>
             </div>
         </div>
 
         <!-- Partner branding/avatar, conversation, reactions, and message composer. -->
-        <div id="messagingPanel">
+        <div id="messagingPanel"> <!-- Main column containing conversation and message controls. -->
             <div id="partnerSection">
                 <!-- The stylesheet displays the logo matching the active theme. -->
-                <div id="logo">
-                    <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" />
-                    <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" />
+                <div id="logo"> <!-- CSS displays the logo that matches the current theme. -->
+                    <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" /> <!-- Light-theme logo asset. -->
+                    <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" /> <!-- Dark-theme logo asset. -->
                 </div>
                 <!-- The selected partner image is animated and fades with inactivity. -->
                 <div id="avatarAnimation">
-                    <img id="partnerAvatar" src="images/NonBinary1.png" width="200" height="200" />
+                    <img id="partnerAvatar" src="images/NonBinary1.png" width="200" height="200" /> <!-- Default avatar; JavaScript can replace it with the saved choice. -->
                 </div>
                 <!-- Envelope illustration wraps the scrollable conversation history. -->
                 <div id="envelope">
-                    <div id="chatLogWrapper">
-                        <div id="chatLog"></div>
+                    <div id="chatLogWrapper"> <!-- Paper frame that clips the message list. -->
+                        <div id="chatLog"></div> <!-- JavaScript inserts message bubbles here. -->
                     </div>
-                    <div id="envelopeFront" aria-hidden="true">
-                        <span id="envelopeSeal">♥</span>
+                    <div id="envelopeFront" aria-hidden="true"> <!-- Decorative envelope flap hidden from assistive technology. -->
+                        <span id="envelopeSeal">♥</span> <!-- Decorative heart on the envelope. -->
                     </div>
                 </div>
             </div>
 
             <!-- Emoji shortcuts insert a reaction and send the message. -->
             <div id="emojiBar">
-                <button type="button" class="emojiButton" data-emoji="😂" aria-label="Laughing">😂</button>
-                <button type="button" class="emojiButton" data-emoji="😊" aria-label="Shy smile">😊</button>
-                <button type="button" class="emojiButton" data-emoji="🥺" aria-label="Sad watery eyes">🥺</button>
-                <button type="button" class="emojiButton" data-emoji="❤️" aria-label="Love heart">❤️</button>
-                <button type="button" class="emojiButton" data-emoji="😈" aria-label="Purple devil">😈</button>
-                <button type="button" class="emojiButton" data-emoji="😒" aria-label="Side eye">😒</button>
-                <button type="button" class="emojiButton" data-emoji="🙄" aria-label="Eye roll">🙄</button>
+                <button type="button" class="emojiButton" data-emoji="😂" aria-label="Laughing">😂</button> <!-- Sends the emoji named by data-emoji. -->
+                <button type="button" class="emojiButton" data-emoji="😊" aria-label="Shy smile">😊</button> <!-- Sends the emoji named by data-emoji. -->
+                <button type="button" class="emojiButton" data-emoji="🥺" aria-label="Sad watery eyes">🥺</button> <!-- Sends the emoji named by data-emoji. -->
+                <button type="button" class="emojiButton" data-emoji="❤️" aria-label="Love heart">❤️</button> <!-- Sends the emoji named by data-emoji. -->
+                <button type="button" class="emojiButton" data-emoji="😈" aria-label="Purple devil">😈</button> <!-- Sends the emoji named by data-emoji. -->
+                <button type="button" class="emojiButton" data-emoji="😒" aria-label="Side eye">😒</button> <!-- Sends the emoji named by data-emoji. -->
+                <button type="button" class="emojiButton" data-emoji="🙄" aria-label="Eye roll">🙄</button> <!-- Sends the emoji named by data-emoji. -->
             </div>
 
             <!-- Text entry and Send button for ordinary messages. -->
             <div id="mySection">
                 <div id="messageInputWrapper">
-                    <textarea id="messageInput" rows="1"></textarea>
+                    <textarea id="messageInput" rows="1"></textarea> <!-- Starts at one row and grows as text is entered. -->
                 </div>
-                <button id="sendButton" class="button-82-pushable" role="button">
-                    <span class="button-82-shadow"></span>
-                    <span class="button-82-edge"></span>
-                    <span class="button-82-front text">Send</span>
+                <button id="sendButton" class="button-82-pushable" role="button"> <!-- Sends the text currently in the message field. -->
+                    <span class="button-82-shadow"></span> <!-- Shadow layer under the button. -->
+                    <span class="button-82-edge"></span> <!-- Colored side layer creates button depth. -->
+                    <span class="button-82-front text">Send</span> <!-- Visible button face and label. -->
                 </button>
             </div>
         </div>
