@@ -4,18 +4,6 @@
 import express from 'express'
 import { Redis } from '@upstash/redis'
 
-const app = express()
-const port = 3000
-
-// Reads UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN from the environment.
-// Locally they come from .env; on Vercel from Settings → Environment Variables.
-const redis = Redis.fromEnv()
-
-// Turn a JSON request body into req.body
-app.use(express.json())
-
-export default app
-
 
 const sendMessageButton = document.getElementById("sendButton");
 const messageInput = document.getElementById("messageInput");
