@@ -104,11 +104,8 @@ const formatTime = function (ms) {
 const seenKeys = new Set();     // messages already on screen (from the server)
 const pendingMine = [];         // messages I just sent, waiting for the server to echo them back
 
-const addMessage = function (from, text, time) {
+const addMessage = function (from, text, time, scrollToLatest = false) {
     const isMine = from === myName;
-
-    // only auto-scroll if I sent it, or I was already at the bottom
-    const wasAtBottom = chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 40;
 
     const bubble = document.createElement("div");
     bubble.className = "chatMessage " + (isMine ? "mine" : "theirs");
@@ -131,9 +128,10 @@ const addMessage = function (from, text, time) {
     meta.append(sender, timeEl);
     bubble.append(meta, body);
     chatLog.append(bubble);
-
-    if (isMine || wasAtBottom) {
-        chatLog.scrollTop = chatLog.scrollHeight;
+    if (scrollToLatest) {
+        requestAnimationFrame(() => {
+            chatLog.scrollTop = chatLog.scrollHeight - chatLog.clientHeight;
+        });
     }
 
     return { bubble, timeEl };
@@ -173,6 +171,8 @@ const getMessages = async function() {
         let results = await response.json();
 
         if (Array.isArray(results)) {
+            const isInitialLoad = firstLoad;
+
             // oldest first, whatever order the server returns them in
             results.sort((a, b) => (a.time || 0) - (b.time || 0));
 
@@ -205,6 +205,12 @@ const getMessages = async function() {
                 }
             }
 
+            if (isInitialLoad) {
+                requestAnimationFrame(() => {
+                    chatLog.scrollTop = chatLog.scrollHeight - chatLog.clientHeight;
+                });
+            }
+
             // the avatar's fade restarts from my partner's latest message
             if (newestPartnerTime && (firstLoad || newestPartnerTime > lastActivityTime)) {
                 lastActivityTime = newestPartnerTime;
@@ -233,7 +239,7 @@ const sendMessage = async function() {
     }
 
     // shown right away so you can test the frontend without a backend
-    const shown = addMessage(myName, text, Date.now());
+    const shown = addMessage(myName, text, Date.now(), true);
     pendingMine.push({ text: text, timeEl: shown.timeEl });
 
     // temporary test helpers: remove both lines once partner messages arrive

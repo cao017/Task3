@@ -173,6 +173,7 @@ a {
 
 #avatarAnimation {
     width: calc(100% - 2 * var(--letter-inset));
+    height: clamp(150px, 22dvh, 200px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -685,7 +686,7 @@ img {
     }
 
     #avatarAnimation {
-        height: clamp(90px, 28dvh, 260px);
+        height: clamp(90px, 24dvh, 220px);
         min-height: 60px;
         flex-shrink: 1;
     }
