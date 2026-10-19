@@ -1,230 +1,217 @@
 *, *::before, *::after {
-    box-sizing: border-box; /* Include padding and borders within declared element sizes. */
+    box-sizing: border-box;
 }
 
-/* Shared colors and images used by the light and dark settings themes. */
+/* ---------- theme colors ---------- */
 :root {
-    --screen-background-image: url("images/Background.png"); /* Settings background image in light mode. */
-    --page-fallback-color: #a53636; /* Solid fallback behind the image. */
-    --background-color: rgba(247, 131, 131, 0.7); /* Translucent form-panel color. */
-    --surface-color: rgba(240, 0, 60, 1); /* Fill color for settings sections and controls. */
-    --input-field-color: #f0f0f0; /* Text-field background in light mode. */
-    --input-text-color: #222222; /* Text-field text color in light mode. */
-    --input-border-color: #cccccc; /* Text-field border in light mode. */
-     --button-front: hsl(345deg 100% 47%); /* Front face of the Save button. */
-    --button-edge-dark: hsl(340deg 100% 16%); /* Dark edge of the Save button. */
-    --button-edge-light: hsl(340deg 100% 32%); /* Highlighted middle of the button edge. */
+    --screen-background-image: url("images/Background.png");
+    --page-fallback-color: #a53636;
+    --background-color: rgba(247, 131, 131, 0.7);
+    --surface-color: rgba(240, 0, 60, 1);
+    --input-field-color: #f0f0f0;
+    --input-text-color: #222222;
+    --input-border-color: #cccccc;
+    --button-front: hsl(345deg 100% 47%);
+    --button-edge-dark: hsl(340deg 100% 16%);
+    --button-edge-light: hsl(340deg 100% 32%);
 }
 
 :root[data-theme="dark"] {
-  --screen-background-image: url("images/DarkMode1.png"); /* Replace the background in dark mode. */
-    --page-fallback-color: #3a1515; /* Fallback color behind the dark image. */
-    --background-color: rgba(70, 25, 25, 0.8); /* Dark translucent settings panel. */
-    --surface-color: rgba(150, 0, 40, 1); /* Dark fill for sections and controls. */
-    --input-field-color: #2b2b2b; /* Dark text-field background. */
-    --input-text-color: #f0f0f0; /* Light text for contrast in dark fields. */
-    --input-border-color: #4a4a4a; /* Dark-mode text-field border. */
-    --button-front: hsl(345deg 100% 29%);        /* same as rgb(150, 0, 40) */
-    --button-edge-dark: hsl(340deg 100% 10%); /* Dark-mode button edge. */
-    --button-edge-light: hsl(340deg 100% 18%); /* Dark-mode highlighted button edge. */
+    --screen-background-image: url("images/DarkMode1.png");
+    --page-fallback-color: #3a1515;
+    --background-color: rgba(70, 25, 25, 0.8);
+    --surface-color: rgba(150, 0, 40, 1);
+    --input-field-color: #2b2b2b;
+    --input-text-color: #f0f0f0;
+    --input-border-color: #4a4a4a;
+    --button-front: hsl(345deg 100% 29%);
+    --button-edge-dark: hsl(340deg 100% 10%);
+    --button-edge-light: hsl(340deg 100% 18%);
 }
 
-/* Brighten the Save button hover effect slightly in dark mode. */
 :root[data-theme="dark"] .button-82-pushable:hover {
-  filter: brightness(115%); /* Brighten the Save button on hover in dark mode. */
+  filter: brightness(115%);
 }
 
-/* Cover the page with the themed background and center the settings panel. */
+/* ---------- page ---------- */
 body {
-    background-image: var(--screen-background-image); /* Draw the active theme's background image. */
-    background-color: var(--page-fallback-color); /* Show a fallback color if the image is unavailable. */
-    background-size: cover; /* Scale the image to cover the viewport. */
-    background-position: center; /* Keep the center of the image visible. */
-    background-repeat: no-repeat; /* Do not tile the background. */
-    display: flex; /* Center the settings panel with flexbox. */
-    justify-content: center; /* Center horizontally. */
-    align-items: center; /* Center vertically. */
-    margin: 0; /* Remove the browser's default page margin. */
-    font-family: Arial, Helvetica, sans-serif; /* Use a common sans-serif font. */
-    color: #ffffff; /* Set default page text color. */
+    background-image: var(--screen-background-image);
+    background-color: var(--page-fallback-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
 }
 
-/* Use a heart cursor for interactive page elements. */
 body, a, button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%232e2c2c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
-/* lighter heart cursor so it shows up on the dark background */
 :root[data-theme="dark"] body,
 :root[data-theme="dark"] a,
 :root[data-theme="dark"] button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%23f0f0f0' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
-/* Keep the form centered in a narrow, full-height panel. */
 #mainContainer {
-    max-width: 350px; /* Limit the panel width on larger screens. */
-    width: 100%; /* Fill available width up to the maximum. */
-    background-color: var(--background-color); /* Apply the theme's translucent panel color. */
-    backdrop-filter: blur(3px); /* Blur the background behind the panel. */
-    display: flex; /* Lay settings sections out with flexbox. */
-    flex-direction: column; /* Stack settings from top to bottom. */
-    align-items: center; /* Center each section horizontally. */
-    justify-content: flex-start; /* Start sections at the top. */
-    gap: 16px; /* Separate settings sections. */
-    height: 100vh; /* Fallback height for browsers without dynamic viewport units. */
-    height: 100dvh; /* Fill the dynamic viewport height on phones. */
-    padding: 16px; /* Keep content away from the panel edges. */
+    max-width: 350px;
+    width: 100%;
+    background-color: var(--background-color);
+    backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    height: 100vh;
+    height: 100dvh;
+    padding: 16px;
 }
 
-.name-section input {
-    font-size: 1rem; /* Prevent iOS from zooming when a name field is focused. */
-}
-
-/* Display the logo variant matching the current theme. */
+/* ---------- logo ---------- */
 #logo {
-    width: 100%; /* Use the full panel width for the brand image. */
-    flex-shrink: 0; /* Keep the logo from being compressed by the form. */
-    display: flex; /* Center whichever theme logo is visible. */
-    justify-content: center; /* Align the logo horizontally. */
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .logo {
-    width: 100%; /* Fill the logo container horizontally. */
-    height: auto; /* Preserve the image aspect ratio. */
-    object-fit: contain; /* Show the complete logo without cropping. */
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .logo-dark {
-    display: none; /* Keep the dark logo hidden in light mode. */
+    display: none;
 }
 
 :root[data-theme="dark"] .logo-light {
-    display: none; /* Hide the light logo while dark mode is active. */
+    display: none;
 }
 
 :root[data-theme="dark"] .logo-dark {
-    display: block; /* Show the dark logo while dark mode is active. */
+    display: block;
 }
 
-/* Style the name fields and avatar picker as matching rounded panels. */
+/* ---------- cards ---------- */
 .name-section,
 #chooseAvatarSection {
-    width: 100%; /* Let each settings card fill the form width. */
-    background-color: var(--surface-color); /* Fill cards with the current theme's surface color. */
-    border-radius: 24px; /* Round each card's corners. */
-    padding: 12px; /* Add space inside each card. */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Lift each card slightly from the panel. */
-    display: flex; /* Use flexbox to arrange card contents. */
-    flex-direction: column; /* Stack labels and fields vertically by default. */
-    gap: 12px; /* Separate each card's contents. */
-    align-items: center; /* Center labels and controls. */
+    width: 100%;
+    background-color: var(--surface-color);
+    border-radius: 24px;
+    padding: 12px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
 }
 
-/* inputs match #messageInput */
 .name-section input {
-    width: 100%; /* Fill the width of the name card. */
-    padding: 12px; /* Add comfortable space around typed text. */
-    border-radius: 24px; /* Round the input field. */
-    border: 1px solid var(--input-border-color); /* Outline using the active theme's border color. */
-    background-color: var(--input-field-color); /* Use the active theme's input background. */
-    color: var(--input-text-color); /* Use the active theme's input text color. */
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;   /* stops iOS from zooming when focused */
+    border-radius: 24px;
+    border: 1px solid var(--input-border-color);
+    background-color: var(--input-field-color);
+    color: var(--input-text-color);
 }
 
 /* label on its own row, the two photos side by side underneath */
 #chooseAvatarSection {
-    flex-direction: row; /* Put both avatar choices side by side. */
-    flex-wrap: wrap; /* Allow the label and choices to wrap when needed. */
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #chooseAvatarLabel {
-    width: 100%; /* Give the heading its own row above the images. */
-    text-align: center; /* Center the avatar-picker heading. */
+    width: 100%;
+    text-align: center;
 }
 
 .avatarChoice {
-    flex: 1; /* Let both avatar choices share the available width. */
+    flex: 1 1 0;
+    min-width: 0;
 }
 
 .avatarChoice input {
-    display: none; /* Hide the native radio while retaining its form behavior. */
+    display: none;
 }
 
 .avatarChoice img {
-    width: 100%; /* Fill the label's available width. */
-    height: auto; /* Preserve the source image proportions. */
-    aspect-ratio: 1; /* Make the preview square. */
-    object-fit: cover; /* Crop the source to fill the square without distortion. */
-    border-radius: 16px; /* Round the image corners. */
-    border: 4px solid transparent; /* Reserve space for the selected-state border. */
-    cursor: pointer; /* Indicate that the image can be selected. */
-    opacity: 0.5; /* Dim unselected avatar choices. */
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 4px solid transparent;
+    cursor: pointer;
+    opacity: 0.5;
 }
 
-/* Highlight the avatar preview whose radio option is selected. */
 .avatarChoice input:checked + img {
-    border-color: #ffffff; /* Highlight the preview beside the checked radio. */
-    opacity: 1.0; /* Show the selected preview at full opacity. */
+    border-color: #ffffff;
+    opacity: 1.0;
 }
 
-/* Center the Save button within its own row. */
 #saveButtonContainer {
-    display: flex; /* Use flexbox to position the Save control. */
-    justify-content: center; /* Center the button horizontally. */
-    align-items: center; /* Center the button vertically within its row. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Full-width button for switching between light and dark themes. */
 #themeToggle {
-    width: 100%; /* Make the theme control span the settings panel. */
-    padding: 12px; /* Create a comfortable tap target. */
-    border: none; /* Remove the browser's default button border. */
-    border-radius: 24px; /* Match the rounded settings cards. */
-    background-color: var(--surface-color); /* Use the theme's surface color. */
-    color: #ffffff; /* Keep the label readable on the colored surface. */
-    font-family: inherit; /* Match the rest of the page typography. */
-    font-size: 1rem; /* Keep button text at a readable size. */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Lift the control slightly from the panel. */
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 24px;
+    background-color: var(--surface-color);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Base shape and interaction behavior for the layered Save button. */
+/* ---------- Save button ---------- */
 .button-82-pushable {
-  position: relative; /* Position the button's visual layers relative to its box. */
-  border: none; /* Remove the browser's default button border. */
-  background: transparent; /* Let the layered face and edge provide the colors. */
-  padding: 0; /* Let the face element set the button dimensions. */
-  cursor: pointer; /* Show that the control can be clicked. */
-  outline-offset: 4px; /* Keep the keyboard focus outline outside the button. */
-  transition: filter 250ms; /* Smooth brightness changes. */
-  user-select: none; /* Prevent accidental text selection while pressing. */
-  -webkit-user-select: none; /* Apply the same behavior in WebKit browsers. */
-  touch-action: manipulation; /* Improve touch tap responsiveness. */
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  transition: filter 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-/* Offset shadow, colored edge, and raised face create the push-button effect. */
 .button-82-shadow {
-  position: absolute; /* Place the shadow underneath the button face. */
-  top: 0; /* Align with the button's top edge. */
-  left: 0; /* Align with the button's left edge. */
-  width: 100%; /* Match the button width. */
-  height: 100%; /* Match the button height. */
-  border-radius: 24px; /* Round the shadow to match the button. */
-  background: hsl(0deg 0% 0% / 0.25); /* Use a translucent black shadow. */
-  will-change: transform; /* Hint that this layer will move during interactions. */
-  transform: translateY(2px); /* Offset the shadow just below the button. */
-  transition:
-    transform
-    600ms
-    cubic-bezier(.3, .7, .4, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: hsl(0deg 0% 0% / 0.25);
+  will-change: transform;
+  transform: translateY(2px);
+  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
 .button-82-edge {
-  position: absolute; /* Place the colored edge behind the button face. */
-  top: 0; /* Align with the button's top edge. */
-  left: 0; /* Align with the button's left edge. */
-  width: 100%; /* Match the button width. */
-  height: 100%; /* Match the button height. */
-  border-radius: 24px; /* Round the edge to match the button. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
   background: linear-gradient(
     to left,
     var(--button-edge-dark) 0%,
@@ -235,67 +222,55 @@ body, a, button {
 }
 
 .button-82-front {
-  display: block; /* Make the face a block around its label. */
-  position: relative; /* Keep the face above its edge and shadow. */
-  padding: 10px 20px; /* Set space around the Save label. */
-  border-radius: 24px; /* Round the visible button face. */
-  font-size: 1.1rem; /* Set the Save label size. */
-  color: white; /* Contrast the label against the colored face. */
-  background: var(--button-front); /* Use the current theme's button color. */
-  will-change: transform; /* Hint that the face will move during hover and press. */
-  transform: translateY(-4px); /* Raise the face above the edge at rest. */
-  transition:
-    transform
-    600ms
-    cubic-bezier(.3, .7, .4, 1);
+  display: block;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 1.1rem;
+  color: white;
+  background: var(--button-front);
+  will-change: transform;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
-/* Increase the Save button text and padding on wider screens. */
 @media (min-width: 768px) {
   .button-82-front {
-    font-size: 1.25rem; /* Enlarge the label on wider screens. */
-    padding: 10px 24px; /* Add horizontal room on wider screens. */
+    font-size: 1.25rem;
+    padding: 10px 24px;
   }
 }
 
-/* Hover, press, and keyboard-focus states for the Save button. */
 .button-82-pushable:hover {
-  filter: brightness(110%); /* Brighten the whole button on hover. */
-  -webkit-filter: brightness(110%); /* WebKit-prefixed equivalent. */
+  filter: brightness(110%);
+  -webkit-filter: brightness(110%);
 }
 
 .button-82-pushable:hover .button-82-front {
-  transform: translateY(-6px); /* Raise the button face further on hover. */
-  transition:
-    transform
-    250ms
-    cubic-bezier(.3, .7, .4, 1.5);
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
 }
 
 .button-82-pushable:active .button-82-front {
-  transform: translateY(-2px); /* Lower the face to simulate a press. */
-  transition: transform 34ms; /* Make the press response immediate. */
+  transform: translateY(-2px);
+  transition: transform 34ms;
 }
 
 .button-82-pushable:hover .button-82-shadow {
-  transform: translateY(4px); /* Move the shadow down while the face lifts. */
-  transition:
-    transform
-    250ms
-    cubic-bezier(.3, .7, .4, 1.5);
+  transform: translateY(4px);
+  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
 }
 
 .button-82-pushable:active .button-82-shadow {
-  transform: translateY(1px); /* Reduce shadow offset while pressed. */
-  transition: transform 34ms; /* Make the shadow response immediate. */
+  transform: translateY(1px);
+  transition: transform 34ms;
 }
 
 .button-82-pushable:focus:not(:focus-visible) {
-  outline: none; /* Hide mouse focus outline while preserving keyboard focus styling. */
+  outline: none;
 }
 
-/* Phone layout: fit settings and all controls inside the visible screen. */
-/* Phone layout: panel fills the whole screen, Save sits at the bottom */
+/* ---------- phone layout (keep this block last) ---------- */
 @media (max-width: 600px) {
     body {
         position: fixed;
@@ -309,7 +284,7 @@ body, a, button {
         max-width: none;
         width: 100%;
         height: 100%;
-        overflow-y: auto;      /* only scrolls if a very small screen needs it */
+        overflow-y: auto;      /* only scrolls on a very small screen */
         padding: 12px;
         gap: 10px;
         border-radius: 0;
@@ -336,71 +311,32 @@ body, a, button {
         padding: 10px;
     }
 
+    /* avatars share the card width, side by side with a small gap */
+    #chooseAvatarSection {
+        flex-wrap: wrap;
+    }
+
+    .avatarChoice {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .avatarChoice img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+    }
+
     #themeToggle {
         flex-shrink: 0;
         padding: 10px;
     }
 
-    /* pushes the Save button to the bottom of the screen */
+    /* pushes Save to the bottom of the screen */
     #saveButtonContainer {
         margin-top: auto;
         flex-shrink: 0;
         padding-bottom: 8px;
     }
 }
-
-    #mainContainer {
-        max-width: none; /* Let the settings panel use the phone's full width. */
-        height: 100vh; /* Fallback height for the panel. */
-        height: 100dvh; /* Fill the visible phone viewport. */
-        min-height: 100dvh; /* Prevent flex layout from shortening the panel. */
-        overflow: hidden; /* Hide content extending below the panel's visible area. */
-        flex: 1; /* Fill the body's available phone-screen height. */
-        padding: 12px; /* Keep controls inset from the phone edges. */
-        gap: 8px; /* Tighten vertical spacing for a shorter screen. */
-    }
-
-    #logo {
-        width: 60%; /* Scale the logo down on phones. */
-        max-height: 56px; /* Prevent the logo row from growing too tall. */
-    }
-
-    .logo {
-        max-height: 56px; /* Cap the logo image height on phones. */
-    }
-
-    .name-section,
-    #chooseAvatarSection {
-        padding: 8px; /* Reduce card padding on a narrow screen. */
-        gap: 8px; /* Tighten spacing between card contents. */
-    }
-
-    .name-section input {
-        padding: 8px; /* Keep input tap targets comfortable with less vertical bulk. */
-    }
-
-    .avatarChoice img {
-        width: clamp(72px, 16dvh, 100px); /* Scale previews within a 72px to 100px range. */
-        height: auto; /* Preserve the square ratio defined in the base rule. */
-    }
-
-    #themeToggle {
-        padding: 8px; /* Compact the theme-toggle tap target slightly. */
-    }
-
-    #messagingPanel,
-    #partnerSection {
-        gap: 12px; /* Maintain separation between layout sections on phones. */
-    }
-
-    #avatarAnimation {
-        height: clamp(120px, 28dvh, 260px); /* Bound avatar height for a phone viewport. */
-    }
-
-    #partnerAvatar {
-        width: 100%; /* Fill the avatar frame horizontally. */
-        height: 100%; /* Fill the avatar frame vertically. */
-        object-fit: cover; /* Crop rather than distort the image. */
-        object-position: top center; /* Keep the face visible when cropping. */
-    }
-

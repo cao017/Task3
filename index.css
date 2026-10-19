@@ -1,237 +1,223 @@
 *, *::before, *::after {
-    box-sizing: border-box; /* Include padding and borders within declared element sizes. */
+    box-sizing: border-box;
 }
 
-/* Shared colors and images used by the light and dark interface themes. */
+/* ---------- theme colors ---------- */
 :root {
-    --screen-background-image: url("images/Background.png"); /* Main page background in light mode. */
-    --page-fallback-color: #a53636; /* Solid fallback behind the background image. */
-    --background-color: rgba(247, 131, 131, 0.7); /* Translucent main panel color. */
-    --surface-color: #eeb3ee; /* Fill color for controls and message surfaces. */
-    --input-field-color: #f0f0f0; /* Background of text and emoji inputs. */
-    --text-color: #000000; /* Default text color. */
-    --input-border-color: #cccccc; /* Default border around the composer. */
-    --input-border-focus: #888888; /* Border color while the composer has focus. */
-    --scrollbar-thumb: rgba(0, 0, 0, 0.3); /* Scrollbar color in light mode. */
-    --button-front: hsl(345deg 100% 47%); /* Front face of the Send button. */
-    --button-edge-dark: hsl(340deg 100% 16%); /* Dark edge at both sides of the button. */
-    --button-edge-light: hsl(340deg 100% 32%); /* Highlighted center of the button edge. */
-    --bubble-mine: #eeb3ee; /* Background for messages sent by this user. */
-    --bubble-theirs: #48a1b1; /* Background for messages sent by the partner. */
-     --paper-color: #fffaf0; /* Letter paper behind the chat messages. */
-    --envelope-color: #f2b8c6; /* Front flap of the envelope. */
-    --envelope-back: #e49aae; /* Back of the envelope. */
-    --letter-inset: 3%; /* Horizontal inset of the letter within the envelope. */
+    --screen-background-image: url("images/Background.png");
+    --page-fallback-color: #a53636;
+    --background-color: rgba(247, 131, 131, 0.7);
+    --surface-color: #eeb3ee;
+    --input-field-color: #f0f0f0;
+    --text-color: #000000;
+    --input-border-color: #cccccc;
+    --input-border-focus: #888888;
+    --scrollbar-thumb: rgba(0, 0, 0, 0.3);
+    --button-front: hsl(345deg 100% 47%);
+    --button-edge-dark: hsl(340deg 100% 16%);
+    --button-edge-light: hsl(340deg 100% 32%);
+    --bubble-mine: #eeb3ee;
+    --bubble-theirs: #48a1b1;
+    --paper-color: #fffaf0;
+    --envelope-color: #f2b8c6;
+    --envelope-back: #e49aae;
+    --letter-inset: 3%;
 }
 
 :root[data-theme="dark"] {
-    --screen-background-image: url("images/DarkMode1.png"); /* Replaces the page background in dark mode. */
-    --page-fallback-color: #3a1515; /* Fallback color behind the dark background image. */
-    --background-color: rgba(70, 25, 25, 0.8); /* Dark translucent main panel. */
-    --surface-color: #5a3a5a; /* Dark fill for controls and message surfaces. */
-    --input-field-color: #2b2b2b; /* Dark background of the text field. */
-    --text-color: #f0f0f0; /* Light text for contrast on dark surfaces. */
-    --input-border-color: #4a4a4a; /* Dark-mode composer border. */
-    --input-border-focus: #999999; /* Brighter border while the composer has focus. */
-    --scrollbar-thumb: rgba(255, 255, 255, 0.35); /* Light scrollbar thumb for dark mode. */
-    --button-front: hsl(345deg 100% 29%);        /* same as rgb(150, 0, 40) */
-    --button-edge-dark: hsl(340deg 100% 10%); /* Dark edge color for the button in dark mode. */
-    --button-edge-light: hsl(340deg 100% 18%); /* Highlight color for the button edge in dark mode. */
-    --bubble-mine: #a55878; /* Dark-mode bubble for this user's messages. */
-    --bubble-theirs: #25585f; /* Dark-mode bubble for partner messages. */
-    --paper-color: #302c2a; /* Dark paper color inside the envelope. */
-    --envelope-color: #6a3347; /* Dark-mode front flap. */
-    --envelope-back: #52283a; /* Dark-mode envelope backing. */
+    --screen-background-image: url("images/DarkMode1.png");
+    --page-fallback-color: #3a1515;
+    --background-color: rgba(70, 25, 25, 0.8);
+    --surface-color: #5a3a5a;
+    --input-field-color: #2b2b2b;
+    --text-color: #f0f0f0;
+    --input-border-color: #4a4a4a;
+    --input-border-focus: #999999;
+    --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+    --button-front: hsl(345deg 100% 29%);
+    --button-edge-dark: hsl(340deg 100% 10%);
+    --button-edge-light: hsl(340deg 100% 18%);
+    --bubble-mine: #a55878;
+    --bubble-theirs: #25585f;
+    --paper-color: #302c2a;
+    --envelope-color: #6a3347;
+    --envelope-back: #52283a;
 }
 
 :root[data-theme="dark"] .button-82-pushable:hover {
-    filter: brightness(115%); /* Make the button hover state clearer against the dark theme. */
+    filter: brightness(115%);
 }
 
-
-/* Paint the themed background and keep the app aligned to the visible screen. */
-   html {
-    height: 100%; /* Make the root page fill the browser viewport. */
-    overflow: hidden; /* Prevent the document itself from scrolling. */
-    background-image: var(--screen-background-image); /* Draw the theme-specific background image. */
-    background-color: var(--page-fallback-color); /* Show a fallback if the image is unavailable. */
-    background-size: cover; /* Scale the background to cover the viewport. */
-    background-position: center; /* Keep the center of the image visible. */
-    background-repeat: no-repeat; /* Do not tile the background image. */
+/* ---------- page ---------- */
+html {
+    height: 100%;
+    overflow: hidden;
+    background-image: var(--screen-background-image);
+    background-color: var(--page-fallback-color);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 body {
-    position: fixed; /* Keep the app pinned while the phone keyboard changes the viewport. */
-    top: var(--app-top, 0px); /* JS updates this to match the visible viewport's vertical offset. */
-    left: 0; /* Pin the body to the left edge. */
-    right: 0; /* Pin the body to the right edge. */
-    height: var(--app-height, 100dvh); /* Use the visible height supplied by JS, or the dynamic viewport height. */
-    overflow: hidden; /* Keep page scrolling inside the chat log only. */
-    display: flex; /* Use flexbox to position the main panel. */
-    justify-content: center; /* Center the panel horizontally. */
-    align-items: center; /* Center the panel vertically. */
-    margin: 0; /* Remove the browser's default body margin. */
+    position: fixed;
+    top: var(--app-top, 0px);
+    left: 0;
+    right: 0;
+    height: var(--app-height, 100dvh);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
-/* Use a heart-shaped pointer over links and buttons. */
 body, a, button {
-    /* Custom heart pointer shared by the page and its clickable controls. */
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%232e2c2c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
-/* lighter heart cursor so it shows up on the dark background */
 :root[data-theme="dark"] body,
 :root[data-theme="dark"] a,
 :root[data-theme="dark"] button {
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%23f0f0f0' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto; /* Use a light heart cursor so it remains visible in dark mode. */
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%23f0f0f0' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
 a {
-    text-decoration: none; /* Remove the browser's default link underline. */
-    color: inherit; /* Make the link use its surrounding text color. */
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Center the narrow app panel and establish the overall vertical page layout. */
 #mainContainer {
-    max-width: 350px; /* Cap the app width on larger screens. */
-    width: 100%; /* Fill available width up to the maximum. */
-    background-color: var(--background-color); /* Apply the active theme's translucent panel color. */
-    backdrop-filter: blur(3px); /* Softly blur the background behind the panel. */
-    display: flex; /* Arrange app sections with flexbox. */
-    flex-direction: column; /* Stack the header and messaging interface vertically. */
-    align-items: center; /* Center child sections horizontally. */
-    justify-content: flex-start; /* Start content at the top of the panel. */
-    gap: 16px; /* Separate the header and main messaging area. */
-    height: 100%; /* Fill the body height. */
-    padding: 16px; /* Keep content away from the panel edges. */
-    font-family: Arial, Helvetica, sans-serif; /* Use a common sans-serif font stack. */
-    color: var(--text-color); /* Use text color from the current theme. */
+    max-width: 350px;
+    width: 100%;
+    background-color: var(--background-color);
+    backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    height: 100%;
+    padding: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text-color);
 }
 
-/* Top row holds the settings shortcut. */
 #header {
-    display: flex; /* Place header contents in a flexible row. */
-    width: 100%; /* Let the header span the panel. */
-    flex-direction: row; /* Lay header items side by side. */
-    text-align: center; /* Center any header text. */
-    justify-content: flex-end; /* Align the Settings shortcut to the right. */
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    text-align: center;
+    justify-content: flex-end;
 }
 
 #settingsLink {
-    display: flex; /* Let the icon link size itself to the SVG. */
-    color: var(--text-color);   /* black in light mode, off-white in dark mode */
-    transition: transform 300ms ease; /* Smooth the icon's hover rotation. */
+    display: flex;
+    color: var(--text-color);
+    transition: transform 300ms ease;
 }
 
-#settingsLink:hover { 
-    transform: rotate(60deg);   /* Rotate the Settings icon on hover. */
+#settingsLink:hover {
+    transform: rotate(60deg);
 }
 
-/* Stack the partner/conversation area above the reaction bar and message composer. */
 #messagingPanel {
-    width: 100%; /* Match the panel width. */
-    display: flex; /* Arrange conversation and composer sections. */
-    flex-direction: column; /* Stack the partner area, emoji bar, and input. */
-    align-items: center; /* Center each child section horizontally. */
-    justify-content: space-between; /* Distribute available height between the children. */
-    flex: 1;              /* fills the space under the header, instead of height: 100% */
-    min-height: 0;        /* lets it shrink instead of overflowing the page */
-    gap: 16px; /* Keep sections separated when space is available. */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    min-height: 0;
+    gap: 16px;
 }
 
 #partnerSection {
-    width: 100%; /* Use the full messaging panel width. */
-    display: flex; /* Arrange branding, avatar, and envelope. */
-    flex-direction: column; /* Stack the partner elements vertically. */
-    align-items: center; /* Center logo, avatar, and envelope. */
-    justify-content: flex-start; /* Start the partner content at the top. */
-    flex: 1; /* Take the available vertical space above the emoji bar. */
-    min-height: 0; /* Allow flex content to shrink within the viewport. */
-    overflow: hidden;     /* anything too tall gets clipped instead of covering the emojis */
-    gap: 16px; /* Separate logo, avatar, and message envelope. */
-    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    gap: 16px;
 }
 
-/* ---------- theme-aware logo and partner avatar ---------- */
+/* ---------- logo ---------- */
 #logo {
-    width: calc(100% - 2 * var(--letter-inset)); /* Match the inset width of the letter below. */
-    flex-shrink: 0; /* Keep the logo from being compressed by the flex layout. */
-    display: flex; /* Center the active logo image. */
-    justify-content: center; /* Align the image horizontally in its container. */
+    width: calc(100% - 2 * var(--letter-inset));
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .logo {
-    width: 100%; /* Fill the available logo container width. */
-    height: auto; /* Preserve the source image's aspect ratio. */
-    object-fit: contain; /* Fit the whole logo without cropping. */
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .logo-dark {
-    display: none; /* Hide the dark logo by default. */
+    display: none;
 }
 
 :root[data-theme="dark"] .logo-light {
-    display: none; /* Hide the light logo when dark theme is active. */
+    display: none;
 }
 
 :root[data-theme="dark"] .logo-dark {
-    display: block; /* Show the dark logo when dark theme is active. */
+    display: block;
 }
 
+/* ---------- avatar ---------- */
 #avatarAnimation {
-    width: calc(100% - 2 * var(--letter-inset)); /* Align avatar width with the letter inset. */
-    height: clamp(150px, 22dvh, 200px); /* Scale avatar height with screen size, within limits. */
-    display: flex; /* Center the avatar image in its clipping frame. */
-    justify-content: center; /* Center the image horizontally. */
-    align-items: center; /* Center the image vertically. */
-    border-radius: 16px; /* Round the avatar frame corners. */
-    overflow: hidden;     /* the box stays fixed and clips the image */
-    flex-shrink: 0;       /* the avatar never gets squashed */
+    width: calc(100% - 2 * var(--letter-inset));
+    height: clamp(150px, 22dvh, 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: opacity 1s linear;
 }
 
 #partnerAvatar {
-    display: block; /* Avoid inline-image baseline spacing. */
-    transform-origin: top center;   /* zoom grows downward, so the top stays visible */
-    transform: scale(1.1);          /* base zoom so movement never shows gaps */
-    animation: idle 3s ease-in-out infinite; /* Keep a gentle idle movement running. */
+    display: block;
+    transform-origin: top center;
+    transform: scale(1.1);
+    animation: idle 3s ease-in-out infinite;
 }
 
-/* Gentle idle motion used while no message-triggered animation is running. */
 @keyframes idle {
-    /* Hold still at the endpoints before rising and falling slightly. */
     0%, 100% { transform: translateY(0) scale(1.1); }
     50%      { transform: translateY(3px) scale(1.13); }
 }
 
-/* Short reactions played on the partner avatar when a new message arrives. */
 @keyframes hop {
-    /* Bounce down and back up, adding a small alternating tilt. */
     0%, 100% { transform: translateY(0) rotate(0) scale(1.1); }
     30%      { transform: translateY(4px) rotate(-2deg) scale(1.1); }
     60%      { transform: translateY(0) rotate(2deg) scale(1.1); }
 }
 
 @keyframes sway {
-    /* Rock gently from side to side. */
     0%, 100% { transform: rotate(-2deg) scale(1.1); }
     50%      { transform: rotate(2deg) scale(1.1); }
 }
 
 @keyframes drift {
-    /* Move horizontally between the left and right positions. */
     0%, 100% { transform: translateX(-4px) scale(1.1); }
     50%      { transform: translateX(4px) scale(1.1); }
 }
 
 @keyframes squish {
-    /* Change width and height briefly to create a squash/stretch effect. */
     0%, 100% { transform: scale(1.1, 1.1); }
     30%      { transform: scale(1.14, 1.06); }
     60%      { transform: scale(1.07, 1.13); }
 }
 
 @keyframes shake {
-    /* Move quickly in alternating directions to create a shake. */
     0%, 100% { transform: translateX(0) scale(1.1); }
     20%      { transform: translateX(-4px) scale(1.1); }
     40%      { transform: translateX(4px) scale(1.1); }
@@ -240,343 +226,323 @@ a {
 }
 
 @keyframes heartbeat {
-    /* Scale up in two quick pulses, then return to normal size. */
     0%, 40%, 100% { transform: scale(1.1); }
     15%           { transform: scale(1.16); }
     30%           { transform: scale(1.12); }
 }
 
 @keyframes flash {
-    /* Briefly brighten the image, then restore normal brightness. */
     0%, 100% { transform: scale(1.1); filter: brightness(1); }
     30%      { transform: scale(1.1); filter: brightness(1.6); }
 }
 
 @keyframes glow {
-    /* Slightly brighten and saturate the image at the midpoint. */
     0%, 100% { transform: scale(1.1); filter: brightness(1); }
     50%      { transform: scale(1.1); filter: brightness(1.15) saturate(1.2); }
 }
 
-/* ---------- one class per animation (added by index.js) ---------- */
-#partnerAvatar.anim-hop       { animation: hop 0.6s ease-out 2; } /* Run the hop animation twice over 0.6 seconds. */
-#partnerAvatar.anim-sway      { animation: sway 0.8s ease-in-out 2; } /* Run the sway animation twice. */
-#partnerAvatar.anim-drift     { animation: drift 0.9s ease-in-out 2; } /* Run the drift animation twice. */
-#partnerAvatar.anim-squish    { animation: squish 0.7s ease-in-out 2; } /* Run the squash/stretch animation twice. */
-#partnerAvatar.anim-shake     { animation: shake 0.5s ease-in-out 1; } /* Run the shake animation once. */
-#partnerAvatar.anim-heartbeat { animation: heartbeat 0.8s ease-in-out 2; } /* Run the heartbeat animation twice. */
-#partnerAvatar.anim-flash     { animation: flash 0.6s ease-in-out 1; } /* Run the brightness flash once. */
-#partnerAvatar.anim-glow      { animation: glow 1s ease-in-out 2; } /* Run the glow animation twice. */
+#partnerAvatar.anim-hop       { animation: hop 0.6s ease-out 2; }
+#partnerAvatar.anim-sway      { animation: sway 0.8s ease-in-out 2; }
+#partnerAvatar.anim-drift     { animation: drift 0.9s ease-in-out 2; }
+#partnerAvatar.anim-squish    { animation: squish 0.7s ease-in-out 2; }
+#partnerAvatar.anim-shake     { animation: shake 0.5s ease-in-out 1; }
+#partnerAvatar.anim-heartbeat { animation: heartbeat 0.8s ease-in-out 2; }
+#partnerAvatar.anim-flash     { animation: flash 0.6s ease-in-out 1; }
+#partnerAvatar.anim-glow      { animation: glow 1s ease-in-out 2; }
 
-/* turn off movement for people who have reduced motion enabled in their system */
 @media (prefers-reduced-motion: reduce) {
-    /* Respect the user's operating-system preference for less motion. */
     #partnerAvatar { animation: none !important; }
 }
 
 img {
-    /* Default image fill; component-specific rules can override the dimensions. */
-    width: 100%; /* Default images fill their parent horizontally. */
-    height: 100%; /* Default images fill their parent vertically. */
-    object-fit: cover; /* Crop images when necessary rather than distort them. */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* ---------- envelope, scrollable conversation, and message bubbles ---------- */
+/* ---------- envelope + letter ---------- */
 #envelope {
-    position: relative; /* Establish positioning context for the letter and flap layers. */
-    width: 100%; /* Fill the partner section horizontally. */
-    flex: 1; /* Use remaining height for the message envelope. */
-    min-height: 130px; /* Keep enough height to display the letter and pocket. */
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 130px;
 }
 
-/* the back of the envelope, visible at the sides of the letter */
 #envelope::before {
-    content: ""; /* Create a decorative envelope-back layer without extra markup. */
-    position: absolute; /* Position the layer relative to the envelope. */
-    z-index: 0; /* Place it behind the letter and flap. */
-    left: 0; /* Stretch to the left edge. */
-    right: 0; /* Stretch to the right edge. */
-    bottom: 0; /* Anchor at the bottom. */
-    height: 78px; /* Set the visible height of the envelope back. */
-    background: var(--envelope-back); /* Use the theme's envelope-back color. */
-    border-radius: 10px 10px 14px 14px; /* Round the envelope's bottom corners. */
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 78px;
+    background: var(--envelope-back);
+    border-radius: 10px 10px 14px 14px;
 }
 
-/* the letter: it runs down behind the pocket, so it looks half inside */
 #chatLogWrapper {
-    position: absolute; /* Layer the paper within the envelope. */
-    z-index: 1; /* Place paper above the envelope back, below the front flap. */
-    top: 0; /* Align the paper's top with the envelope. */
-    left: var(--letter-inset); /* Inset the paper from the left edge. */
-    right: var(--letter-inset); /* Inset the paper from the right edge. */
-    bottom: 20px; /* Leave space for the bottom flap. */
-    display: flex; /* Allow the chat log to fill the paper. */
-    flex-direction: column; /* Stack the log and its contents vertically. */
-    padding: 14px 8px 48px 12px;   /* big bottom padding keeps messages above the pocket */
-    background: var(--paper-color); /* Apply light or dark letter-paper color. */
-    border-radius: 6px 6px 0 0; /* Round only the top corners of the letter. */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Lift the letter visually off the envelope. */
-    overflow: hidden; /* Clip chat content to the paper's rounded bounds. */
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: var(--letter-inset);
+    right: var(--letter-inset);
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 8px 48px 12px;
+    background: var(--paper-color);
+    border-radius: 6px 6px 0 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
-/* the front pocket, with a V-shaped top edge */
 #envelopeFront {
-    position: absolute; /* Place the front flap over the envelope back. */
-    z-index: 2; /* Keep the flap above the letter and its messages. */
-    left: 0; /* Stretch the flap to the left edge. */
-    right: 0; /* Stretch the flap to the right edge. */
-    bottom: 0; /* Anchor the flap to the bottom. */
-    height: 64px; /* Set the flap's size. */
-    pointer-events: none;          /* scrolling and clicks go through to the letter */
-    filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.18)); /* Add a slight shadow above the flap. */
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    pointer-events: none;
+    filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.18));
 }
 
 #envelopeFront::before {
-    content: ""; /* Create the flap face as a pseudo-element. */
-    position: absolute; /* Position it within the flap container. */
-    inset: 0; /* Stretch it across the full container. */
-    background: var(--envelope-color); /* Use the theme's flap color. */
-    border-radius: 0 0 14px 14px; /* Round the two bottom corners. */
-    clip-path: polygon(0 0, 50% 30%, 100% 0, 100% 100%, 0 100%); /* Cut a V-shaped upper edge. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--envelope-color);
+    border-radius: 0 0 14px 14px;
+    clip-path: polygon(0 0, 50% 30%, 100% 0, 100% 100%, 0 100%);
 }
 
-/* fold lines */
 #envelopeFront::after {
-    content: ""; /* Add fold lines as a second decorative layer. */
-    position: absolute; /* Position fold artwork over the flap face. */
-    inset: 0; /* Stretch artwork to the flap's bounds. */
-    border-radius: 0 0 14px 14px; /* Clip fold artwork to the rounded corners. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0 0 14px 14px;
     background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M3 97 L50 30 L97 97' fill='none' stroke='rgba(0,0,0,0.18)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
 }
 
-/* little heart seal */
 #envelopeSeal {
-    position: absolute; /* Place the heart seal on top of the envelope flap. */
-    z-index: 1; /* Keep the seal above the flap artwork. */
-    left: 50%; /* Start at the horizontal center. */
-    top: 30%; /* Place the seal near the flap's V-shaped tip. */
-    transform: translate(-50%, -50%); /* Center the seal around its position. */
-    width: 28px; /* Set the seal's diameter. */
-    height: 28px; /* Keep the seal circular. */
-    display: flex; /* Center the heart glyph inside the seal. */
-    align-items: center; /* Center the heart vertically. */
-    justify-content: center; /* Center the heart horizontally. */
-    border-radius: 50%; /* Make the seal round. */
-    background: #c8102e; /* Give the seal a red fill. */
-    color: #ffffff; /* Make the heart white. */
-    font-size: 0.95rem; /* Size the heart glyph. */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); /* Add depth beneath the seal. */
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #c8102e;
+    color: #ffffff;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
+/* ---------- chat log + bubbles ---------- */
 #chatLog {
-    flex: 1; /* Fill the available paper area. */
-    min-height: 0; /* Let the scroll region shrink inside its flex parent. */
-    overflow-y: auto; /* Scroll vertically when messages exceed the visible height. */
-    display: flex; /* Lay out message bubbles with flexbox. */
-    flex-direction: column; /* Place older messages above newer messages. */
-    gap: 10px; /* Add space between consecutive message bubbles. */
-    padding-right: 6px;      /* keeps bubbles clear of the scrollbar */
-    scrollbar-width: thin; /* Use a narrow scrollbar in browsers supporting this property. */
-    scrollbar-color: var(--scrollbar-thumb) transparent; /* Theme the scrollbar thumb and track. */
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 #chatLog:empty::before {
-    content: "No messages yet"; /* Show a placeholder only while there are no bubbles. */
-    margin: auto; /* Center the placeholder in the log area. */
-    opacity: 0.5; /* Keep the placeholder visually secondary. */
+    content: "No messages yet";
+    margin: auto;
+    opacity: 0.5;
 }
 
 #chatLog::-webkit-scrollbar {
-    width: 6px; /* Set scrollbar width in WebKit-based browsers. */
+    width: 6px;
 }
 
 #chatLog::-webkit-scrollbar-track {
-    background: transparent; /* Let the paper color show through the track. */
+    background: transparent;
 }
 
 #chatLog::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb); /* Use the current theme's scrollbar color. */
-    border-radius: 3px; /* Round the scrollbar thumb. */
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
 }
 
 .chatMessage {
-    max-width: 85%; /* Keep long bubbles from spanning the entire conversation width. */
-    padding: 8px 12px; /* Space text inside the bubble. */
-    border-radius: 16px; /* Round the bubble corners. */
-    flex-shrink: 0; /* Keep each bubble at its content height when the log is crowded. */
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 16px;
+    flex-shrink: 0;
 }
 
 .chatMessage.mine {
-    align-self: flex-end; /* Align this user's bubbles to the right. */
-    background-color: var(--bubble-mine); /* Apply the current theme's own-message color. */
-    border-bottom-right-radius: 4px; /* Flatten the corner nearest the sender. */
+    align-self: flex-end;
+    background-color: var(--bubble-mine);
+    border-bottom-right-radius: 4px;
 }
 
 .chatMessage.theirs {
-    align-self: flex-start; /* Align partner bubbles to the left. */
-    background-color: var(--bubble-theirs); /* Apply the current theme's partner-message color. */
-    border-bottom-left-radius: 4px; /* Flatten the corner nearest the sender. */
+    align-self: flex-start;
+    background-color: var(--bubble-theirs);
+    border-bottom-left-radius: 4px;
 }
 
 .chatMeta {
-    display: flex; /* Lay sender and time out on one row. */
-    justify-content: space-between; /* Put sender at left and time at right. */
-    align-items: baseline; /* Align text along its baseline. */
-    gap: 12px; /* Keep sender and time separated if space is tight. */
-    margin-bottom: 4px; /* Separate metadata from message text. */
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
 }
 
 .chatSender {
-    font-size: 0.7rem; /* Make the sender name smaller than message text. */
-    font-style: italic; /* Distinguish the sender label from the message. */
-    font-family: Arial, Helvetica, sans-serif; /* Use a readable system font. */
+    font-size: 0.7rem;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .chatTime {
-    opacity: 0.6; /* Make time less prominent than the message. */
-    font-size: 0.7rem; /* Match the sender-label size. */
-    font-family: Arial, Helvetica, sans-serif; /* Use a readable system font. */
+    opacity: 0.6;
+    font-size: 0.7rem;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .chatText {
-    text-align: left; /* Align the message content to the left in either bubble. */
-    white-space: pre-wrap; /* Preserve user-entered newlines and wrap normal text. */
-    overflow-wrap: anywhere; /* Break very long unspaced text instead of overflowing. */
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
-/* Smooths periodic opacity changes made by the avatar-fade logic in index.js. */
-#avatarAnimation {
-    transition: opacity 1s linear; /* Smooth opacity changes made by the fade timer. */
-}
-
-/* ---------- emoji shortcuts ---------- */
+/* ---------- emoji buttons ---------- */
 #emojiBar {
-    width: 100%; /* Span the available app width. */
-    display: flex; /* Arrange emoji buttons in a row. */
-    justify-content: space-between; /* Distribute buttons evenly across the row. */
-    gap: 4px; /* Add a small gap between adjacent buttons. */
-    flex-shrink: 0;       /* the bar never gets squashed */
-    position: relative; /* Establish a positioning context for button child layers. */
-    z-index: 5;           /* always above the envelope */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 5;
 }
 
 .emojiButton {
-    flex: 1; /* Let each button share the available row width. */
-    max-width: 44px; /* Prevent buttons from becoming too large on wide screens. */
-    aspect-ratio: 1; /* Keep each emoji button square. */
-    padding: 0; /* Remove browser button padding around the emoji. */
-    border: none; /* Remove the default button border. */
-    border-radius: 50%; /* Make the square button circular. */
-    background-color: var(--input-field-color); /* Match the input field's theme color. */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Lift the circular buttons off the background. */
-    font-size: 1.3rem; /* Set the emoji size. */
-    line-height: 1; /* Avoid extra vertical space around the glyph. */
-    transition: transform 120ms ease; /* Smooth hover and press scaling. */
+    flex: 1;
+    max-width: 44px;
+    aspect-ratio: 1;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--input-field-color);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: transform 120ms ease;
 }
 
 .emojiButton:hover {
-    transform: translateY(-2px) scale(1.1); /* Lift and enlarge the hovered emoji button. */
+    transform: translateY(-2px) scale(1.1);
 }
 
 .emojiButton:active {
-    transform: scale(0.95); /* Slightly compress the button while it is pressed. */
-    
+    transform: scale(0.95);
 }
 
 /* ---------- message composer ---------- */
 #mySection {
-    width: 100%; /* Fill the messaging panel width. */
-    display: flex; /* Lay out the input and Send button together. */
-    flex-direction: row; /* Place the input beside the Send button. */
-    align-items: flex-end;      /* keeps Send at the bottom as the box grows */
-    justify-content: space-between; /* Keep the input and button at opposite ends. */
-    gap: 8px; /* Separate the input from the button. */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 #messageInputWrapper {
-    flex: 1; /* Use remaining row width after the Send button. */
-    min-width: 0; /* Allow the input to shrink instead of overflowing on phones. */
-    padding: 14px 8px 14px 20px; /* Create space around the text field. */
-    border: 1px solid var(--input-border-color); /* Outline the input using the current theme. */
-    border-radius: 24px; /* Round the input wrapper. */
-    background-color: var(--input-field-color); /* Fill the input wrapper with the theme's input color. */
+    flex: 1;
+    min-width: 0;
+    padding: 14px 8px 14px 20px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 24px;
+    background-color: var(--input-field-color);
 }
 
 #messageInputWrapper:focus-within {
-    border-color: var(--input-border-focus); /* Highlight the wrapper while its textarea is focused. */
+    border-color: var(--input-border-focus);
 }
 
 #messageInput {
-    display: block; /* Remove inline textarea baseline spacing. */
-    width: 100%; /* Fill the input wrapper's content width. */
-    max-height: 150px; /* Stop the field growing beyond a usable height. */
-    padding: 0; /* Let the outer wrapper control spacing. */
-    border: none; /* The wrapper supplies the visible border. */
-    outline: none; /* The wrapper supplies the visible focus indicator. */
-    background: transparent; /* Show the wrapper's background through the textarea. */
-    color: var(--text-color); /* Use the current theme's text color. */
-    resize: none; /* Let JavaScript control growth rather than manual resizing. */
-    overflow: hidden; /* Hide overflow unless JavaScript detects text needs scrolling. */
-    font-family: inherit; /* Match the surrounding app font. */
-    font-size: 1rem; /* Keep text comfortably readable and avoid mobile auto-zoom. */
-    line-height: 1.4; /* Give wrapped message lines comfortable spacing. */
+    display: block;
+    width: 100%;
+    max-height: 150px;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-color);
+    resize: none;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.4;
 }
 
 #messageInput::placeholder {
-    color: var(--text-color); /* Match the current theme's text color. */
-    opacity: 0.5; /* Make suggestion text less prominent than entered content. */
+    color: var(--text-color);
+    opacity: 0.5;
 }
 
 #messageInput::-webkit-scrollbar {
-    width: 6px; /* Set textarea scrollbar width in WebKit browsers. */
+    width: 6px;
 }
 
 #messageInput::-webkit-scrollbar-track {
-    background: transparent; /* Keep the track visually unobtrusive. */
+    background: transparent;
 }
 
 #messageInput::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb); /* Use the active theme's scrollbar color. */
-    border-radius: 3px; /* Round the scrollbar thumb. */
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
 }
 
-/* ---------- layered, pressable Send button ---------- */
+/* ---------- Send button ---------- */
 .button-82-pushable {
-  position: relative; /* Position child layers relative to the button. */
-  border: none; /* Remove the browser's default button border. */
-  background: transparent; /* Let the layered front and edge provide the color. */
-  padding: 0; /* Let the visible button face control its own padding. */
-  cursor: pointer; /* Indicate that the control is clickable. */
-  outline-offset: 4px; /* Leave room between keyboard focus outline and button. */
-  transition: filter 250ms; /* Smooth brightness changes on hover. */
-  user-select: none; /* Avoid selecting button text during a press. */
-  -webkit-user-select: none; /* Apply the same text-selection behavior in WebKit. */
-  touch-action: manipulation; /* Improve tap handling on touchscreen devices. */
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  transition: filter 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
 .button-82-shadow {
-  position: absolute; /* Place shadow behind the button layers. */
-  top: 0; /* Align shadow with the top edge. */
-  left: 0; /* Align shadow with the left edge. */
-  width: 100%; /* Match the button width. */
-  height: 100%; /* Match the button height. */
-  border-radius: 24px; /* Round the shadow to match the button. */
-  background: hsl(0deg 0% 0% / 0.25); /* Use a translucent black shadow. */
-  will-change: transform; /* Hint that this layer will animate its transform. */
-  transform: translateY(2px); /* Offset the shadow below the button. */
-  transition:
-    transform
-    600ms
-    cubic-bezier(.3, .7, .4, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: hsl(0deg 0% 0% / 0.25);
+  will-change: transform;
+  transform: translateY(2px);
+  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
 .button-82-edge {
-  position: absolute; /* Place the colored edge behind the button face. */
-  top: 0; /* Align with the top of the button. */
-  left: 0; /* Align with the left of the button. */
-  width: 100%; /* Match the button width. */
-  height: 100%; /* Match the button height. */
-  border-radius: 24px; /* Round the edge to match the button shape. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
   background: linear-gradient(
     to left,
     var(--button-edge-dark) 0%,
@@ -587,143 +553,113 @@ img {
 }
 
 .button-82-front {
-  display: block; /* Make the button face fill its content box. */
-  position: relative; /* Keep the face above its edge and shadow. */
-  padding: 10px 20px; /* Set the face size around the label. */
-  border-radius: 24px; /* Round the face corners. */
-  font-size: 1.1rem; /* Set the Send label size. */
-  color: white; /* Contrast the label against the colored face. */
-  background: var(--button-front); /* Use the current theme's button color. */
-  will-change: transform; /* Hint that the face moves during presses and hover. */
-  transform: translateY(-4px); /* Raise the face above its edge at rest. */
-  transition:
-    transform
-    600ms
-    cubic-bezier(.3, .7, .4, 1);
+  display: block;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 1.1rem;
+  color: white;
+  background: var(--button-front);
+  will-change: transform;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
 @media (min-width: 768px) {
   .button-82-front {
-    font-size: 1.25rem; /* Enlarge the label on wider screens. */
-    padding: 10px 24px; /* Give the button extra horizontal room on wider screens. */
+    font-size: 1.25rem;
+    padding: 10px 24px;
   }
 }
 
 .button-82-pushable:hover {
-  filter: brightness(110%); /* Brighten the complete button on hover. */
-  -webkit-filter: brightness(110%); /* WebKit-prefixed equivalent for older browsers. */
+  filter: brightness(110%);
+  -webkit-filter: brightness(110%);
 }
 
 .button-82-pushable:hover .button-82-front {
-  transform: translateY(-6px); /* Raise the face slightly higher on hover. */
-  transition:
-    transform
-    250ms
-    cubic-bezier(.3, .7, .4, 1.5);
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
 }
 
 .button-82-pushable:active .button-82-front {
-  transform: translateY(-2px); /* Push the face down while pressed. */
-  transition: transform 34ms; /* Make the press response nearly immediate. */
+  transform: translateY(-2px);
+  transition: transform 34ms;
 }
 
 .button-82-pushable:hover .button-82-shadow {
-  transform: translateY(4px); /* Move the shadow down as the face rises. */
-  transition:
-    transform
-    250ms
-    cubic-bezier(.3, .7, .4, 1.5);
+  transform: translateY(4px);
+  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
 }
 
 .button-82-pushable:active .button-82-shadow {
-  transform: translateY(1px); /* Reduce shadow offset to simulate a pressed button. */
-  transition: transform 34ms; /* Make the shadow press response immediate. */
+  transform: translateY(1px);
+  transition: transform 34ms;
 }
 
 .button-82-pushable:focus:not(:focus-visible) {
-  outline: none; /* Hide mouse-focus outline while retaining keyboard focus indication. */
+  outline: none;
 }
 
-/* Phone layout: fit the interface to the narrow screen and reclaim space when typing. */
+/* ---------- phone layout (keep this block last) ---------- */
 @media (max-width: 600px) {
     #mainContainer {
-        max-width: none; /* Let the app panel span the phone width. */
-        padding: 12px; /* Reduce edge spacing on a small screen. */
-        gap: 12px; /* Tighten vertical spacing for the phone layout. */
+        max-width: none;
+        padding: 12px;
+        gap: 12px;
     }
 
     #messagingPanel,
     #partnerSection {
-        gap: 12px; /* Reduce gaps between the main phone layout sections. */
+        gap: 12px;
     }
 
     #logo {
-        width: 60%; /* Scale the normal phone logo down from desktop size. */
+        width: 60%;
     }
 
     #avatarAnimation {
-        height: clamp(90px, 24dvh, 220px); /* Scale avatar height to the phone viewport. */
-        min-height: 60px; /* Preserve a minimum visible avatar height. */
-        flex-shrink: 1; /* Allow the avatar frame to shrink if the screen is short. */
+        height: clamp(90px, 24dvh, 220px);
+        min-height: 60px;
+        flex-shrink: 1;
     }
 
     #partnerAvatar {
-        width: 100%; /* Fill the avatar frame horizontally. */
-        height: 100%; /* Fill the avatar frame vertically. */
-        object-fit: cover; /* Crop to fill without distorting the source image. */
-        object-position: top center; /* Keep the face near the top while cropping. */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
     }
 
     #envelope {
-        min-height: 140px; /* Keep the envelope large enough to display its letter. */
+        min-height: 140px;
     }
 
+    /* ----- keyboard open ("typing") ----- */
     .typing #avatarAnimation {
-        display: none; /* Hide the avatar while the phone keyboard is open. */
+        display: none;
     }
 
     .typing #header {
-        position: relative; /* Anchor the Settings icon at the edge of the header. */
-        z-index: 5; /* Keep Settings visible and tappable above the chat area. */
-        flex-shrink: 0; /* Prevent the header from collapsing in the compact layout. */
-        align-items: center; /* Vertically align the logo and Settings icon. */
-        justify-content: space-between; /* Put the logo on the left and Settings on the right. */
-        gap: 8px; /* Keep a small gap between the logo and Settings. */
-    }
-
-    .typing #header > #logo {
-        display: flex; /* Show the single logo beside Settings while typing on a phone. */
-        flex: 1; /* Use the available width to the left of the Settings button. */
-        min-width: 0; /* Allow the logo area to shrink without pushing Settings off-screen. */
-        height: 51px; /* Make the compact logo about three times its previous 17px height. */
-        width: auto; /* Override the normal partner-section width in the header. */
-        justify-content: flex-end; /* Keep the logo close to the Settings icon. */
-    }
-
-    .typing #header > #logo .logo {
-        .typing #header {
         position: relative;
         z-index: 5;
         flex-shrink: 0;
         align-items: center;
-        justify-content: space-between;
-        gap: 8px;
+        justify-content: flex-end;   /* gear stays on the right */
+        min-height: 51px;
     }
 
-    /* invisible spacer the same width as the gear, so the logo is truly centered */
-    .typing #header::before {
-        content: "";
-        width: 28px;
-        flex-shrink: 0;
-    }
-
+    /* logo is centered on the whole header, independent of the gear */
     .typing #header > #logo {
-        display: flex;
-        flex: 1;
-        min-width: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
         height: 51px;
-        width: auto;
+        flex: none;
         justify-content: center;
+        pointer-events: none;
     }
 
     .typing #header > #logo .logo {
@@ -732,40 +668,41 @@ img {
         object-fit: contain;
         object-position: center;
     }
+
     .typing #mainContainer {
-        padding-top: 8px; /* Reduce top padding while the keyboard is open. */
-        gap: 8px; /* Reduce space between app sections to free message area. */
+        padding-top: 8px;
+        gap: 8px;
     }
 
     .typing #messagingPanel,
     .typing #partnerSection {
-        gap: 8px; /* Tighten partner and message panel spacing in compact mode. */
+        gap: 8px;
     }
 
     .typing #envelope {
-        min-height: 0; /* Let the envelope use all remaining vertical space. */
+        min-height: 0;
     }
 
     .typing #envelope::before {
-        height: 52px; /* Shrink the back flap to make more room for messages. */
+        height: 52px;
     }
 
     .typing #envelopeFront {
-        height: 44px; /* Shrink the front flap while the keyboard is open. */
+        height: 44px;
     }
 
     .typing #chatLogWrapper {
-        bottom: 14px; /* Align the paper with the smaller compact-mode flap. */
-        padding-bottom: 32px; /* Keep message text above the compact pocket. */
+        bottom: 14px;
+        padding-bottom: 32px;
     }
 
     .typing #messageInput {
-        max-height: min(96px, 16dvh); /* Cap the input at about four lines on short screens. */
+        max-height: min(96px, 16dvh);
     }
 
     .typing #envelopeSeal {
-        width: 22px; /* Reduce the envelope seal width in compact mode. */
-        height: 22px; /* Keep the seal square after resizing. */
-        font-size: 0.75rem; /* Scale down the heart inside the smaller seal. */
+        width: 22px;
+        height: 22px;
+        font-size: 0.75rem;
     }
-}}
+}
