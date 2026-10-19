@@ -13,6 +13,7 @@ let myName = localStorage.getItem("myName");
 let partnerName = localStorage.getItem("partnerName");
 
 // ---------- text box growing (also fits the placeholder) ----------
+// Resizes the message field to fit its text and enables scrolling only when needed.
 const autoGrow = function () {
     messageInput.style.height = "auto";
 
@@ -61,10 +62,12 @@ if (!hasNames) {
 autoGrow();
 
 // ---------- emoji buttons ----------
+// Adds each emoji at the current cursor position, then sends the updated message.
 document.querySelectorAll(".emojiButton").forEach((button) => {
-    // stops the button from stealing focus, so the cursor stays in the text box
+    // Keeps a mouse click from moving focus away from the message field.
     button.addEventListener("mousedown", (e) => e.preventDefault());
 
+    // Inserts this button's emoji at the cursor and sends the resulting message.
     button.addEventListener("click", () => {
         // insert at the cursor (or replace the selected text)
         messageInput.setRangeText(
@@ -82,6 +85,7 @@ document.querySelectorAll(".emojiButton").forEach((button) => {
 const FADE_DURATION = 15 * 60 * 1000;   // change this to make it faster or slower
 let lastActivityTime = Date.now();      // when the avatar was last "refreshed"
 
+// Sets the avatar's opacity based on how long it has been since the latest activity.
 const updateAvatarFade = function () {
     const elapsed = Date.now() - lastActivityTime;
     avatarAnimation.style.opacity = Math.max(0, 1 - elapsed / FADE_DURATION);
@@ -90,6 +94,7 @@ const updateAvatarFade = function () {
 updateAvatarFade();
 
 // ---------- chat log ----------
+// Formats a message timestamp as a time today, or as a date and time for older messages.
 const formatTime = function (ms) {
     const date = new Date(ms);
     const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -103,6 +108,7 @@ const formatTime = function (ms) {
 const seenKeys = new Set();     // messages already on screen (from the server)
 const pendingMine = [];         // messages I just sent, waiting for the server to echo them back
 
+// Creates and displays a chat bubble, optionally scrolling down to the newest message.
 const addMessage = function (from, text, time, scrollToLatest = false) {
     const isMine = from === myName;
 
@@ -128,6 +134,7 @@ const addMessage = function (from, text, time, scrollToLatest = false) {
     bubble.append(meta, body);
     chatLog.append(bubble);
     if (scrollToLatest) {
+        // Wait for layout so the scroll position includes the new bubble's full height.
         requestAnimationFrame(() => {
             chatLog.scrollTop = chatLog.scrollHeight - chatLog.clientHeight;
         });
@@ -144,8 +151,10 @@ const avatarAnimations = [
 
 let lastAnimation = "";
 
+// Plays a randomly selected avatar animation different from the previous one.
 const playRandomAvatarAnimation = function () {
     // pick a random one, but never the same as last time
+    // The filter callback removes the animation that played most recently.
     let choices = avatarAnimations.filter((name) => name !== lastAnimation);
     let chosen = choices[Math.floor(Math.random() * choices.length)];
     lastAnimation = chosen;
@@ -155,6 +164,7 @@ const playRandomAvatarAnimation = function () {
     void partnerAvatar.offsetWidth;
     partnerAvatar.classList.add(chosen);
 
+    // Removes the temporary animation class after the animation finishes.
     partnerAvatar.addEventListener("animationend", () => {
         partnerAvatar.classList.remove(chosen);
     }, { once: true });
@@ -163,6 +173,7 @@ const playRandomAvatarAnimation = function () {
 // ---------- receiving ----------
 let firstLoad = true;   // the first fetch loads history, so it shouldn't trigger animations
 
+// Fetches chat history/new messages, adds unseen messages, and refreshes the avatar fade.
 const getMessages = async function() {
     try {
         let URL = `https://messengerbackend-beta.vercel.app/api/messages?room=partnercheckin`;
@@ -173,6 +184,7 @@ const getMessages = async function() {
             const isInitialLoad = firstLoad;
 
             // oldest first, whatever order the server returns them in
+            // The comparator orders messages by their timestamp.
             results.sort((a, b) => (a.time || 0) - (b.time || 0));
 
             let newestPartnerTime = 0;
@@ -188,6 +200,7 @@ const getMessages = async function() {
 
                 // one of mine that I already showed locally: just fix its time
                 if (message.from === myName) {
+                    // Locate the local pending bubble corresponding to this server echo.
                     const index = pendingMine.findIndex((p) => p.text === message.text);
                     if (index !== -1) {
                         pendingMine[index].timeEl.textContent = formatTime(message.time);
@@ -205,6 +218,7 @@ const getMessages = async function() {
             }
 
             if (isInitialLoad) {
+                // After loading history, position the chat at its newest message.
                 requestAnimationFrame(() => {
                     chatLog.scrollTop = chatLog.scrollHeight - chatLog.clientHeight;
                 });
@@ -226,6 +240,7 @@ const getMessages = async function() {
 };
 
 // ---------- sending ----------
+// Displays the message immediately, then posts it to the shared chat service.
 const sendMessage = async function() {
     const text = messageInput.value.trim();
     if (text === "") return;
@@ -266,6 +281,7 @@ const sendMessage = async function() {
 
 sendMessageButton.addEventListener("click", sendMessage);
 
+// Sends on Enter while preserving Shift+Enter for a newline.
 messageInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();   // stops the newline from being inserted
@@ -288,6 +304,7 @@ let getMessageTimer = setInterval(getMessages, 5000);
 let avatarFadeTimer = setInterval(updateAvatarFade, 1000);
 
 // ---------- keep the layout inside the visible screen (keyboard open or closed for iPhone) ----------
+// Fits the fixed app panel to the visible viewport, including changes from the phone keyboard.
 const fitToVisibleScreen = function () {
     const vv = window.visualViewport;
     if (!vv) return;
@@ -306,6 +323,7 @@ const phoneQuery = window.matchMedia("(max-width: 600px)");
 let messageInputFocused = document.activeElement === messageInput;
 let largestViewportHeight = window.visualViewport?.height ?? window.innerHeight;
 
+// Uses viewport shrinkage and input focus to detect when the phone keyboard is open.
 const updateTypingLayout = function () {
     const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
     largestViewportHeight = Math.max(largestViewportHeight, viewportHeight);
@@ -318,11 +336,13 @@ const updateTypingLayout = function () {
 };
 
 messageInput.addEventListener("focus", () => {
+    // Marks the field focused, then updates the phone's keyboard layout.
     messageInputFocused = true;
     updateTypingLayout();
 });
 
 messageInput.addEventListener("blur", () => {
+    // Restores the normal phone layout when the field loses focus.
     messageInputFocused = false;
     updateTypingLayout();
 });

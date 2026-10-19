@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     
     <title>Settings</title>
+    <!-- Apply the saved or system-preferred theme before the page styles are drawn. -->
     <script>
         document.documentElement.setAttribute(
             "data-theme",
@@ -14,12 +15,15 @@
     <link rel="stylesheet" type="text/css" href="settings.css" />
 </head>
 <body>
+    <!-- Settings content is grouped in a panel that fills the phone viewport. -->
     <div id="mainContainer">
+        <!-- The stylesheet displays the logo matching the active theme. -->
         <div id="logo">
             <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" />
             <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" />
         </div>
 
+        <!-- Names shown on messages in the conversation. -->
         <div id="myName" class="name-section">
             <div id="myNameLabel">My Name</div>
             <input type="text" id="myNameInput" placeholder="Enter your name..." />
@@ -30,6 +34,7 @@
             <input type="text" id="partnerNameInput" placeholder="Enter partner name..." />
         </div>
 
+        <!-- Select which partner image appears in the main conversation view. -->
         <div id="chooseAvatarSection">
             <div id="chooseAvatarLabel">Choose your partner's photo</div>
             <label class="avatarChoice">
@@ -48,8 +53,10 @@
             </label>
         </div>
 
+        <!-- Switches the app theme and saves all settings to local storage. -->
         <button id="themeToggle" type="button">🌙 Dark mode</button>
 
+        <!-- Saves the settings and returns to the conversation. -->
         <div id="saveButtonContainer">
             <button id="saveButton" type="button" class="button-82-pushable" role="button">
                 <span class="button-82-shadow"></span>
@@ -59,6 +66,7 @@
         </div>
 
     </div>
+    <!-- Page behavior: populate settings, handle avatar/theme changes, and save. -->
     <script src="settings.js"></script>
 </body>
 </html>

@@ -12,7 +12,9 @@ if (savedAvatarRadio) {
     savedAvatarRadio.checked = true;
 }
 
+// Attaches a change handler to each available partner avatar.
 avatarOptions.forEach((avatarOption) => {
+    // Save a selected avatar immediately when the user chooses it.
     avatarOption.addEventListener("change", () => {
         if (avatarOption.checked) {
             localStorage.setItem("partnerAvatar", avatarOption.value);
@@ -20,6 +22,7 @@ avatarOptions.forEach((avatarOption) => {
     });
 });
 
+// Saves the settings and returns to the main chat page.
 saveButton.addEventListener("click", () => {
     localStorage.setItem("myName", myNameInput.value);
     localStorage.setItem("partnerName", partnerNameInput.value);
@@ -31,11 +34,13 @@ saveButton.addEventListener("click", () => {
 });
 
 // ---------- theme ----------
+// Applies the selected theme, persists it, and updates the avatar previews.
 const applyTheme = function (theme) {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
 
     // swap the avatar choices to match the theme
+    // Changes each preview image to its light- or dark-theme asset.
     document.querySelectorAll(".avatarChoice img").forEach((img) => {
         img.src = theme === "dark" ? img.dataset.dark : img.dataset.light;
     });
@@ -43,6 +48,7 @@ const applyTheme = function (theme) {
     themeToggle.textContent = theme === "dark" ? "☀️ Light mode" : "🌙 Dark mode";
 };
 
+// Switches to the opposite of the currently active theme.
 themeToggle.addEventListener("click", () => {
     const isDark = document.documentElement.getAttribute("data-theme") === "dark";
     applyTheme(isDark ? "light" : "dark");

@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+/* Shared colors and images used by the light and dark interface themes. */
 :root {
     --screen-background-image: url("images/Background.png");
     --page-fallback-color: #a53636;
@@ -48,6 +49,7 @@
 }
 
 
+/* Paint the themed background and keep the app aligned to the visible screen. */
    html {
     height: 100%;
     overflow: hidden;
@@ -71,6 +73,7 @@ body {
     margin: 0;
 }
 
+/* Use a heart-shaped pointer over links and buttons. */
 body, a, button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%232e2c2c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
@@ -87,6 +90,7 @@ a {
     color: inherit;
 }
 
+/* Center the narrow app panel and establish the overall vertical page layout. */
 #mainContainer {
     max-width: 350px;
     width: 100%;
@@ -103,6 +107,7 @@ a {
     color: var(--text-color);
 }
 
+/* Top row holds the settings shortcut. */
 #header {
     display: flex;
     width: 100%;
@@ -121,6 +126,7 @@ a {
     transform: rotate(60deg);   /* optional: a little turn on hover */
 }
 
+/* Stack the partner/conversation area above the reaction bar and message composer. */
 #messagingPanel {
     width: 100%;
     display: flex;
@@ -145,7 +151,7 @@ a {
     
 }
 
-/* ---------- logo ---------- */
+/* ---------- theme-aware logo and partner avatar ---------- */
 #logo {
     width: calc(100% - 2 * var(--letter-inset));
     flex-shrink: 0;
@@ -189,13 +195,13 @@ a {
     animation: idle 3s ease-in-out infinite;
 }
 
-/* ---------- idle (constant gentle movement) ---------- */
+/* Gentle idle motion used while no message-triggered animation is running. */
 @keyframes idle {
     0%, 100% { transform: translateY(0) scale(1.1); }
     50%      { transform: translateY(3px) scale(1.13); }
 }
 
-/* ---------- message animations ---------- */
+/* Short reactions played on the partner avatar when a new message arrives. */
 @keyframes hop {
     0%, 100% { transform: translateY(0) rotate(0) scale(1.1); }
     30%      { transform: translateY(4px) rotate(-2deg) scale(1.1); }
@@ -258,13 +264,13 @@ a {
 }
 
 img {
+    /* Default image fill; component-specific rules can override the dimensions. */
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* ---------- chat log ---------- */
-/* ---------- envelope + letter ---------- */
+/* ---------- envelope, scrollable conversation, and message bubbles ---------- */
 #envelope {
     position: relative;
     width: 100%;
@@ -427,12 +433,12 @@ img {
     overflow-wrap: anywhere;
 }
 
-/* ---------- avatar fade ---------- */
+/* Smooths periodic opacity changes made by the avatar-fade logic in index.js. */
 #avatarAnimation {
     transition: opacity 1s linear;   /* smooths the once-a-second updates */
 }
 
-/* ---------- emoji buttons ---------- */
+/* ---------- emoji shortcuts ---------- */
 #emojiBar {
     width: 100%;
     display: flex;
@@ -466,7 +472,7 @@ img {
     
 }
 
-/* ---------- type box ---------- */
+/* ---------- message composer ---------- */
 #mySection {
     width: 100%;
     display: flex;
@@ -523,7 +529,7 @@ img {
     border-radius: 3px;
 }
 
-/* ---------- send button ---------- */
+/* ---------- layered, pressable Send button ---------- */
 .button-82-pushable {
   position: relative;
   border: none;
@@ -627,6 +633,7 @@ img {
   outline: none;
 }
 
+/* Phone layout: fit the interface to the narrow screen and reclaim space when typing. */
 @media (max-width: 600px) {
     #mainContainer {
         max-width: none;

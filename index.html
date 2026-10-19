@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
     <title>PartnerCheckin</title>
+    <!-- Apply the saved or system-preferred theme before the page styles are drawn. -->
     <script>
         document.documentElement.setAttribute(
             "data-theme",
@@ -14,7 +15,9 @@
     <link rel="stylesheet" href="index.css" />
 </head>
 <body>
+    <!-- Main app panel contains the settings shortcut and messaging interface. -->
     <div id="mainContainer">
+        <!-- Settings shortcut at the top of the app panel. -->
         <div id="header">
             <div id="settingsIcon">
                 <a href="settings.html" id="settingsLink" aria-label="Settings">
@@ -25,15 +28,19 @@
             </div>
         </div>
 
+        <!-- Partner branding/avatar, conversation, reactions, and message composer. -->
         <div id="messagingPanel">
             <div id="partnerSection">
+                <!-- The stylesheet displays the logo matching the active theme. -->
                 <div id="logo">
                     <img class="logo logo-light" src="images/KwikiLight.png" alt="Kwiki" />
                     <img class="logo logo-dark" src="images/KwikiDark.png" alt="Kwiki" />
                 </div>
+                <!-- The selected partner image is animated and fades with inactivity. -->
                 <div id="avatarAnimation">
                     <img id="partnerAvatar" src="images/NonBinary1.png" width="200" height="200" />
                 </div>
+                <!-- Envelope illustration wraps the scrollable conversation history. -->
                 <div id="envelope">
                     <div id="chatLogWrapper">
                         <div id="chatLog"></div>
@@ -44,6 +51,7 @@
                 </div>
             </div>
 
+            <!-- Emoji shortcuts insert a reaction and send the message. -->
             <div id="emojiBar">
                 <button type="button" class="emojiButton" data-emoji="😂" aria-label="Laughing">😂</button>
                 <button type="button" class="emojiButton" data-emoji="😊" aria-label="Shy smile">😊</button>
@@ -54,6 +62,7 @@
                 <button type="button" class="emojiButton" data-emoji="🙄" aria-label="Eye roll">🙄</button>
             </div>
 
+            <!-- Text entry and Send button for ordinary messages. -->
             <div id="mySection">
                 <div id="messageInputWrapper">
                     <textarea id="messageInput" rows="1"></textarea>
@@ -67,6 +76,7 @@
         </div>
     </div>
 
+    <!-- Page behavior: chat, message sending, theme-aware avatar and phone layout. -->
     <script src="index.js"></script>
 </body>
 </html>
