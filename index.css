@@ -640,7 +640,7 @@ img {
     }
 
     #logo {
-        width: 50%;
+        width: 60%;
     }
 
     #avatarAnimation {
@@ -679,13 +679,13 @@ img {
     }
 
     .typing #logo {
-        width: 50px;
-        max-height: 14px;
+        width: 60px;
+        max-height: 17px;
     }
 
     .typing .logo {
         width: auto;
-        height: 14px;
+        height: 17px;
         max-width: 100%;
     }
 
