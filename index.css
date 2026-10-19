@@ -639,6 +639,10 @@ img {
         gap: 12px;
     }
 
+    #logo {
+        width: 50%;
+    }
+
     #avatarAnimation {
         height: clamp(90px, 24dvh, 220px);
         min-height: 60px;
@@ -675,13 +679,13 @@ img {
     }
 
     .typing #logo {
-        width: 100px;
-        max-height: 28px;
+        width: 50px;
+        max-height: 14px;
     }
 
     .typing .logo {
         width: auto;
-        height: 28px;
+        height: 14px;
         max-width: 100%;
     }
 
