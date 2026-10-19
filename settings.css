@@ -78,7 +78,7 @@ body, a, button {
 @media (max-width: 600px) {
     #mainContainer {
         max-width: none;
-        overflow-y: auto;   /* lets the page scroll if the content is taller than the screen */
+        overflow: hidden;
     }
 }
 }
@@ -290,10 +290,47 @@ body, a, button {
 }
 
 @media (max-width: 600px) {
+    body {
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+    }
+
     #mainContainer {
         max-width: none;       /* use the whole screen width */
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
         padding: 12px;
-        gap: 12px;
+        gap: 8px;
+    }
+
+    #logo {
+        width: 60%;
+        max-height: 56px;
+    }
+
+    .logo {
+        max-height: 56px;
+    }
+
+    .name-section,
+    #chooseAvatarSection {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .name-section input {
+        padding: 8px;
+    }
+
+    .avatarChoice img {
+        width: clamp(72px, 16dvh, 100px);
+        height: auto;
+    }
+
+    #themeToggle {
+        padding: 8px;
     }
 
     #messagingPanel,
