@@ -117,7 +117,7 @@ a {
     transition: transform 300ms ease;
 }
 
-#settingsLink:hover {
+#settingsLink:hover { 
     transform: rotate(60deg);   /* optional: a little turn on hover */
 }
 
