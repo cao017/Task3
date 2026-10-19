@@ -111,6 +111,23 @@ const formatTime = function (ms) { // Converts a server timestamp into a readabl
 const seenKeys = new Set(); // Combined sender/time/text keys prevent duplicate rendering.
 const pendingMine = []; // Locally shown outgoing messages awaiting the server's copy.
 
+// ---------- keep the chat pinned to the newest message ----------
+let stickToBottom = true;
+
+const scrollToBottom = function () {
+    chatLog.scrollTop = chatLog.scrollHeight;
+};
+
+// remember whether the reader is at the bottom (so layout changes keep them there)
+chatLog.addEventListener("scroll", () => {
+    stickToBottom = chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 40;
+});
+
+// when the log changes size (keyboard opens, logo loads), stay at the bottom
+new ResizeObserver(() => {
+    if (stickToBottom) scrollToBottom();
+}).observe(chatLog);
+
 // Creates and displays a chat bubble, optionally scrolling down to the newest message.
 const addMessage = function (from, text, time, scrollToLatest = false) {
     const isMine = from === myName; // Determines which side/color to use for this message bubble.
@@ -138,11 +155,11 @@ const addMessage = function (from, text, time, scrollToLatest = false) {
     chatLog.append(bubble); // Add the completed bubble to the visible conversation.
     if (scrollToLatest) {
         // Wait for layout so the scroll position includes the new bubble's full height.
-        requestAnimationFrame(() => {
-            chatLog.scrollTop = chatLog.scrollHeight - chatLog.clientHeight; // Set scroll position to the bottom-most possible position.
-        });
+       stickToBottom = true;
+    scrollToBottom();                        // immediately
+    requestAnimationFrame(scrollToBottom);   // again once layout has settled
     }
-
+    
     return { bubble, timeEl }; // Return elements so callers can later update this message's timestamp.
 };
 

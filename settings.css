@@ -295,14 +295,59 @@ body, a, button {
 }
 
 /* Phone layout: fit settings and all controls inside the visible screen. */
+/* Phone layout: panel fills the whole screen, Save sits at the bottom */
 @media (max-width: 600px) {
     body {
-        height: 100vh; /* Fallback phone viewport height for older browsers. */
-        height: 100dvh; /* Match the visible dynamic phone viewport. */
-        min-height: 100dvh; /* Ensure the body itself spans the phone's visible height. */
-        overflow: hidden; /* Prevent the page beneath the panel from scrolling. */
-        align-items: stretch; /* Let the settings panel stretch to the body's full height. */
+        position: fixed;
+        inset: 0;
+        height: 100dvh;
+        overflow: hidden;
+        align-items: stretch;
     }
+
+    #mainContainer {
+        max-width: none;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;      /* only scrolls if a very small screen needs it */
+        padding: 12px;
+        gap: 10px;
+        border-radius: 0;
+    }
+
+    #logo {
+        width: 60%;
+        max-height: 56px;
+        flex-shrink: 0;
+    }
+
+    .logo {
+        max-height: 56px;
+    }
+
+    .name-section,
+    #chooseAvatarSection {
+        flex-shrink: 0;
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .name-section input {
+        padding: 10px;
+    }
+
+    #themeToggle {
+        flex-shrink: 0;
+        padding: 10px;
+    }
+
+    /* pushes the Save button to the bottom of the screen */
+    #saveButtonContainer {
+        margin-top: auto;
+        flex-shrink: 0;
+        padding-bottom: 8px;
+    }
+}
 
     #mainContainer {
         max-width: none; /* Let the settings panel use the phone's full width. */
@@ -358,4 +403,4 @@ body, a, button {
         object-fit: cover; /* Crop rather than distort the image. */
         object-position: top center; /* Keep the face visible when cropping. */
     }
-}
+
