@@ -632,52 +632,6 @@ img {
         max-width: none;
         padding: 12px;
         gap: 12px;
-            .typing #avatarAnimation {
-        display: none;
-         #messageInput {
-        max-height: min(96px, 16dvh);   /* about 4 lines, then it scrolls */
-         .typing #logo {
-        display: none;
-    }
-    }
-
-    #envelope {
-        min-height: 140px;              /* the letter can never be squeezed below this */
-            /* while typing: hide the header and use a smaller pocket so the letter gets the room */
-    .typing #header {
-        display: none;
-    }
-
-    .typing #mainContainer {
-        padding-top: 8px;
-        gap: 8px;
-    }
-
-    .typing #messagingPanel,
-    .typing #partnerSection {
-        gap: 8px;
-    }
-
-    .typing #envelope::before {
-        height: 52px;
-    }
-
-    .typing #envelopeFront {
-        height: 44px;
-    }
-
-    .typing #chatLogWrapper {
-        bottom: 14px;
-        padding-bottom: 32px;   /* keeps messages just above the smaller pocket */
-    }
-
-    .typing #envelopeSeal {
-        width: 22px;
-        height: 22px;
-        font-size: 0.75rem;
-    }
-    }
-    }
     }
 
     #messagingPanel,
@@ -696,5 +650,65 @@ img {
         height: 100%;
         object-fit: cover;
         object-position: top center;
+    }
+
+    #envelope {
+        min-height: 140px;              /* the letter can never be squeezed below this */
+    }
+
+    .typing #avatarAnimation {
+        display: none;
+    }
+
+    .typing #header {
+        display: none;
+    }
+
+    .typing #mainContainer {
+        padding-top: 8px;
+        gap: 8px;
+    }
+
+    .typing #messagingPanel,
+    .typing #partnerSection {
+        gap: 8px;
+    }
+
+    .typing #logo {
+        width: 100px;
+        max-height: 28px;
+    }
+
+    .typing .logo {
+        width: auto;
+        height: 28px;
+        max-width: 100%;
+    }
+
+    .typing #envelope {
+        min-height: 0;
+    }
+
+    .typing #envelope::before {
+        height: 52px;
+    }
+
+    .typing #envelopeFront {
+        height: 44px;
+    }
+
+    .typing #chatLogWrapper {
+        bottom: 14px;
+        padding-bottom: 32px;   /* keeps messages just above the smaller pocket */
+    }
+
+    .typing #messageInput {
+        max-height: min(96px, 16dvh);   /* about 4 lines, then it scrolls */
+    }
+
+    .typing #envelopeSeal {
+        width: 22px;
+        height: 22px;
+        font-size: 0.75rem;
     }
 }
