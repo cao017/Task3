@@ -129,8 +129,8 @@ new ResizeObserver(() => {
     if (stickToBottom) scrollToBottom();
 }).observe(chatLog);
 
-// Creates and displays a chat bubble, optionally scrolling down to the newest message.
-const addMessage = function (from, text, time, scrollToLatest = false) {
+// Creates and displays a chat bubble, then scrolls to the newest message.
+const addMessage = function (from, text, time) {
     const isMine = from === myName; // Determines which side/color to use for this message bubble.
 
     const bubble = document.createElement("div"); // Create the outer message bubble.
@@ -154,12 +154,9 @@ const addMessage = function (from, text, time, scrollToLatest = false) {
     meta.append(sender, timeEl); // Put sender and time together above the message text.
     bubble.append(meta, body); // Put the metadata and message text inside the bubble.
     chatLog.append(bubble); // Add the completed bubble to the visible conversation.
-    if (scrollToLatest) { // Scroll only when a local send requests it.
-        // Wait for layout so the scroll position includes the new bubble's full height.
-       stickToBottom = true;
-    scrollToBottom();                        // immediately
-    requestAnimationFrame(scrollToBottom);   // again once layout has settled
-    }
+    stickToBottom = true;
+    scrollToBottom();
+    requestAnimationFrame(scrollToBottom);
     
     return { bubble, timeEl }; // Return elements so callers can later update this message's timestamp.
 };
@@ -274,7 +271,7 @@ const sendMessage = async function() {
     }
 
     // Add the bubble immediately so the interface responds before the network request finishes.
-    const shown = addMessage(myName, text, Date.now(), true); // Show immediately and scroll to the latest message.
+    const shown = addMessage(myName, text, Date.now()); // Show immediately and scroll to the latest message.
     pendingMine.push({ text: text, timeEl: shown.timeEl }); // Track this bubble until the server confirms it.
 
     // Treat sending as activity so the avatar becomes visible and reacts.
