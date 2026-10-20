@@ -1,8 +1,10 @@
+/* Makes declared widths and heights include padding and borders. */
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
 /* ---------- theme colors ---------- */
+/* Defines the light theme's reusable settings-page colors and images. */
 :root {
     --screen-background-image: url("images/Background.png");
     --page-fallback-color: #a53636;
@@ -16,6 +18,7 @@
     --button-edge-light: hsl(340deg 100% 32%);
 }
 
+/* Replaces the settings colors and images when dark mode is active. */
 :root[data-theme="dark"] {
     --screen-background-image: url("images/DarkMode1.png");
     --page-fallback-color: #3a1515;
@@ -29,11 +32,13 @@
     --button-edge-light: hsl(340deg 100% 18%);
 }
 
+/* Brightens the Save button on hover in dark mode. */
 :root[data-theme="dark"] .button-82-pushable:hover {
   filter: brightness(115%);
 }
 
 /* ---------- page ---------- */
+/* Centers the settings panel over the themed page background. */
 body {
     background-image: var(--screen-background-image);
     background-color: var(--page-fallback-color);
@@ -48,16 +53,19 @@ body {
     color: #ffffff;
 }
 
+/* Uses a heart-shaped pointer on the page's interactive surfaces. */
 body, a, button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%232e2c2c' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
+/* Switches the heart pointer to a light color for dark backgrounds. */
 :root[data-theme="dark"] body,
 :root[data-theme="dark"] a,
 :root[data-theme="dark"] button {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path fill='%23f0f0f0' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 16 16, auto;
 }
 
+/* Stacks the logo, settings fields, avatar picker, and buttons in a panel. */
 #mainContainer {
     max-width: 350px;
     width: 100%;
@@ -74,6 +82,7 @@ body, a, button {
 }
 
 /* ---------- logo ---------- */
+/* Centers the theme-selected logo at the top of the settings panel. */
 #logo {
     width: 100%;
     flex-shrink: 0;
@@ -81,25 +90,30 @@ body, a, button {
     justify-content: center;
 }
 
+/* Scales each logo image proportionally to fit its wrapper. */
 .logo {
     width: 100%;
     height: auto;
     object-fit: contain;
 }
 
+/* Hides the dark logo unless the document is using dark mode. */
 .logo-dark {
     display: none;
 }
 
+/* Hides the light logo when dark mode is active. */
 :root[data-theme="dark"] .logo-light {
     display: none;
 }
 
+/* Shows the dark logo when dark mode is active. */
 :root[data-theme="dark"] .logo-dark {
     display: block;
 }
 
 /* ---------- cards ---------- */
+/* Gives the name fields and avatar picker matching card styling. */
 .name-section,
 #chooseAvatarSection {
     width: 100%;
@@ -113,6 +127,7 @@ body, a, button {
     align-items: center;
 }
 
+/* Styles the name fields for readable input and touch-friendly sizing. */
 .name-section input {
     width: 100%;
     padding: 12px;
@@ -124,25 +139,30 @@ body, a, button {
 }
 
 /* label on its own row, the two photos side by side underneath */
+/* Places the avatar options side by side below their label. */
 #chooseAvatarSection {
     flex-direction: row;
     flex-wrap: wrap;
 }
 
+/* Centers the heading above the avatar choices. */
 #chooseAvatarLabel {
     width: 100%;
     text-align: center;
 }
 
+/* Lets each avatar option share the available card width. */
 .avatarChoice {
     flex: 1 1 0;
     min-width: 0;
 }
 
+/* Hides native radio circles while retaining their selection behavior. */
 .avatarChoice input {
     display: none;
 }
 
+/* Displays each avatar preview as a selectable square image. */
 .avatarChoice img {
     display: block;
     width: 100%;
@@ -155,17 +175,20 @@ body, a, button {
     opacity: 0.5;
 }
 
+/* Highlights the preview belonging to the selected radio option. */
 .avatarChoice input:checked + img {
     border-color: #ffffff;
     opacity: 1.0;
 }
 
+/* Centers the Save button inside its wrapper. */
 #saveButtonContainer {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Styles the full-width button that switches between color themes. */
 #themeToggle {
     width: 100%;
     padding: 12px;
@@ -179,6 +202,7 @@ body, a, button {
 }
 
 /* ---------- Save button ---------- */
+/* Creates the interactive outer area for the layered Save button. */
 .button-82-pushable {
   position: relative;
   border: none;
@@ -192,6 +216,7 @@ body, a, button {
   touch-action: manipulation;
 }
 
+/* Adds the offset shadow layer beneath the Save button face. */
 .button-82-shadow {
   position: absolute;
   top: 0;
@@ -205,6 +230,7 @@ body, a, button {
   transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
+/* Draws the colored side layer that gives the Save button depth. */
 .button-82-edge {
   position: absolute;
   top: 0;
@@ -221,6 +247,7 @@ body, a, button {
   );
 }
 
+/* Styles the visible face and label of the Save button. */
 .button-82-front {
   display: block;
   position: relative;
@@ -234,6 +261,7 @@ body, a, button {
   transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
 }
 
+/* Increases Save button text and padding on wider screens. */
 @media (min-width: 768px) {
   .button-82-front {
     font-size: 1.25rem;
@@ -241,37 +269,44 @@ body, a, button {
   }
 }
 
+/* Brightens the whole Save button while hovered. */
 .button-82-pushable:hover {
   filter: brightness(110%);
   -webkit-filter: brightness(110%);
 }
 
+/* Raises the visible Save button face when hovered. */
 .button-82-pushable:hover .button-82-front {
   transform: translateY(-6px);
   transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
 }
 
+/* Moves the Save button face down while the button is pressed. */
 .button-82-pushable:active .button-82-front {
   transform: translateY(-2px);
   transition: transform 34ms;
 }
 
+/* Moves the Save button shadow down on hover to increase depth. */
 .button-82-pushable:hover .button-82-shadow {
   transform: translateY(4px);
   transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
 }
 
+/* Compresses the Save button shadow while it is being pressed. */
 .button-82-pushable:active .button-82-shadow {
   transform: translateY(1px);
   transition: transform 34ms;
 }
 
+/* Hides a mouse-focus outline while retaining keyboard focus styling. */
 .button-82-pushable:focus:not(:focus-visible) {
   outline: none;
 }
 
 /* ---------- phone layout (keep this block last) ---------- */
 @media (max-width: 600px) {
+    /* Fills the phone viewport and keeps the Save button visible at the bottom. */
     body {
         position: fixed;
         inset: 0;

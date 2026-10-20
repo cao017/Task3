@@ -114,16 +114,17 @@ const pendingMine = []; // Locally shown outgoing messages awaiting the server's
 // ---------- keep the chat pinned to the newest message ----------
 let stickToBottom = true;
 
+// Moves the message list to its newest message.
 const scrollToBottom = function () {
     chatLog.scrollTop = chatLog.scrollHeight;
 };
 
-// remember whether the reader is at the bottom (so layout changes keep them there)
+// Tracks whether the reader is near the bottom before the chat list scrolls.
 chatLog.addEventListener("scroll", () => {
     stickToBottom = chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 40;
 });
 
-// when the log changes size (keyboard opens, logo loads), stay at the bottom
+// Keeps the newest message visible after the chat list changes size.
 new ResizeObserver(() => {
     if (stickToBottom) scrollToBottom();
 }).observe(chatLog);
@@ -153,7 +154,7 @@ const addMessage = function (from, text, time, scrollToLatest = false) {
     meta.append(sender, timeEl); // Put sender and time together above the message text.
     bubble.append(meta, body); // Put the metadata and message text inside the bubble.
     chatLog.append(bubble); // Add the completed bubble to the visible conversation.
-    if (scrollToLatest) {
+    if (scrollToLatest) { // Scroll only when a local send requests it.
         // Wait for layout so the scroll position includes the new bubble's full height.
        stickToBottom = true;
     scrollToBottom();                        // immediately
@@ -332,7 +333,7 @@ const fitToVisibleScreen = function () {
     document.documentElement.style.setProperty("--app-top", vv.offsetTop + "px"); // Pass visible viewport offset to the fixed app layout.
 };
 
-if (window.visualViewport) {
+if (window.visualViewport) { // Register viewport listeners only when the browser supports them.
     window.visualViewport.addEventListener("resize", fitToVisibleScreen); // Refit when keyboard or orientation changes viewport height.
     window.visualViewport.addEventListener("scroll", fitToVisibleScreen); // Refit when the visual viewport shifts vertically.
 }
@@ -354,20 +355,20 @@ const updateTypingLayout = function () {
         largestViewportHeight - viewportHeight > 100; // The viewport has shrunk enough to indicate an open keyboard.
     document.documentElement.classList.toggle("typing", keyboardIsOpen); // Add/remove the CSS class that activates compact layout.
 
-    if (keyboardIsOpen && logo.parentElement !== header) {
+    if (keyboardIsOpen && logo.parentElement !== header) { // Move the existing logo into the header while typing.
         header.prepend(logo); // Reuse the logo in the header instead of creating a second one.
     } else if (!keyboardIsOpen && logo.parentElement !== partnerSection) {
         partnerSection.prepend(logo); // Restore the logo above the avatar when the keyboard closes.
     }
 };
 
-messageInput.addEventListener("focus", () => { // Recheck layout when the user enters the message field.
+messageInput.addEventListener("focus", () => { // Enter compact layout when focus and keyboard state require it.
     // Marks the field focused, then updates the phone's keyboard layout.
     messageInputFocused = true;
     updateTypingLayout();
 });
 
-messageInput.addEventListener("blur", () => { // Recheck layout when the user leaves the message field.
+messageInput.addEventListener("blur", () => { // Restore the normal layout when the message field loses focus.
     // Restores the normal phone layout when the field loses focus.
     messageInputFocused = false;
     updateTypingLayout();

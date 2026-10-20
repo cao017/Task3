@@ -1,6 +1,6 @@
 <!DOCTYPE html> <!-- Tells the browser to use modern HTML parsing rules. -->
 <html> <!-- Root element of the document. -->
-<head>
+<head> <!-- Page metadata, theme initialization, and stylesheet references. -->
     <meta charset="UTF-8" /> <!-- Supports emoji and international characters. -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Settings</title> <!-- Text shown in the browser tab. -->
@@ -14,7 +14,7 @@
     </script>
     <link rel="stylesheet" type="text/css" href="settings.css" /> <!-- Loads styles for the Settings page. -->
 </head>
-<body>
+<body> <!-- Visible settings form shown to the user. -->
     <!-- Settings content is grouped in a panel that fills the phone viewport. -->
     <div id="mainContainer">
         <!-- The stylesheet displays the logo matching the active theme. -->
@@ -37,7 +37,7 @@
         <!-- Select which partner image appears in the main conversation view. -->
         <div id="chooseAvatarSection">
             <div id="chooseAvatarLabel">Choose your partner's photo</div>
-            <label class="avatarChoice">
+            <label class="avatarChoice"> <!-- Groups the first avatar preview with its selectable radio control. -->
                 <input type="radio" name="avatar" value="images/NonBinary1.png" checked /> <!-- Radio choice stores this avatar path; checked selects it initially. -->
                 <!-- Preview begins with the light image and carries both paths for theme switching. -->
                 <img src="images/NonBinary1.png"
@@ -45,7 +45,7 @@
                      data-dark="images/DarkModeNonBinary1.png"
                      width="100" height="100" /> <!-- Intrinsic preview dimensions; CSS makes it responsive. -->
             </label>
-            <label class="avatarChoice">
+            <label class="avatarChoice"> <!-- Groups the second avatar preview with its selectable radio control. -->
                 <input type="radio" name="avatar" value="images/NonBinary2.png" /> <!-- Alternative radio choice stores another avatar path. -->
                 <!-- Preview begins with the light image and carries both paths for theme switching. -->
                 <img src="images/NonBinary2.png"
