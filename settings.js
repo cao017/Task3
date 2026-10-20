@@ -38,6 +38,9 @@ saveButton.addEventListener("click", () => {
 const applyTheme = function (theme) {
     document.documentElement.setAttribute("data-theme", theme); // Update the root attribute used by the theme CSS.
     localStorage.setItem("theme", theme); // Remember this theme for future page loads.
+    const themeStyles = getComputedStyle(document.documentElement); // Read the background values for the newly active theme.
+    document.body.style.backgroundImage = themeStyles.getPropertyValue("--screen-background-image"); // Update the visible page background immediately on desktop and mobile.
+    document.body.style.backgroundColor = themeStyles.getPropertyValue("--page-fallback-color"); // Keep the fallback color in sync while the image loads.
 
     // swap the avatar choices to match the theme
     // Changes each preview image to its light- or dark-theme asset.
